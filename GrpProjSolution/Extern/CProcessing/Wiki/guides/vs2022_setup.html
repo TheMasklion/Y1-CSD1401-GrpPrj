@@ -1,0 +1,1088 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../documentation/Vector.html">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.12">
+    
+    
+      
+        <title>Visual Studio 2022 Setup - CProcessing</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.2afb09e1.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+        <script src="https://unpkg.com/iframe-worker/shim"></script>
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#visual-studio-2022-setup" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../index.html" title="CProcessing" class="md-header__button md-logo" aria-label="CProcessing" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            CProcessing
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Visual Studio 2022 Setup
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="CProcessing" class="md-nav__button md-logo" aria-label="CProcessing" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    CProcessing
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Documentation
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Documentation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../documentation/Color.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Color
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../documentation/Engine.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Engine
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../documentation/Font.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Font
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../documentation/Graphics.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Graphics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../documentation/Image.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Image
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../documentation/Input.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Input
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../documentation/Math.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Math
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../documentation/Matrix.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Matrix
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../documentation/Random.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Random
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../documentation/Settings.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Settings
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../documentation/Sound.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sound
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../documentation/System.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    System
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../documentation/Types.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Types
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../documentation/Vector.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Vector
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Guides
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Guides
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Visual Studio 2022 Setup
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="vs2022_setup.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Visual Studio 2022 Setup
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prerequisites
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#project-creation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Project Creation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-a-folder-for-cprocessing-and-assets" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adding a folder for CProcessing and assets
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#project-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Project Configuration
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-our-first-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running our first application
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prerequisites
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#project-creation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Project Creation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-a-folder-for-cprocessing-and-assets" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adding a folder for CProcessing and assets
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#project-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Project Configuration
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-our-first-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running our first application
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="visual-studio-2022-setup">Visual Studio 2022 Setup</h1>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>
+<p>Installed Visual Studios 2022 Community Edition. If you haven't, here are the steps to set it up:</p>
+<ul>
+<li>Click <a href="https://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=Community&amp;channel=Release&amp;version=VS2022&amp;source=VSLandingPage&amp;passive=false&amp;cid=2030">here</a> to download the Visual Studios 2022 installer.</li>
+<li>Double-click on the installer that you downloaded.</li>
+<li>Under the [Desktop and Mobile] section, check the box for [Desktop development with C++].</li>
+<li>Click the on [Install/Modify] button.</li>
+</ul>
+</li>
+<li>
+<p>Downloaded the <code>CProcessing.zip</code> zip file from the Moodle link <code>CProcessing Library</code>.</p>
+</li>
+<li>Downloaded the following files used to run the initial code<ul>
+<li><a href="res/DigiPen_Singapore_WEB_RED.png">DigiPen Singapore Logo</a></li>
+<li><a href="res/main.c">main.c</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="project-creation">Project Creation</h2>
+<p>First, we will create the Visual Studios Solution and Project files that will be used to run our first application.</p>
+<ul>
+<li>Open Visual Studios. You should see a window that looks like this:</li>
+</ul>
+<p><img alt="" src="res/vs2022_create.png" /></p>
+<ul>
+<li>Under the [Visual Studio 2022] window:<ul>
+<li>Click on [Create a new project]</li>
+</ul>
+</li>
+<li>Under the [Create a new project] window:<ul>
+<li>Click on [Empty Project]. Make sure that it's the C++ version. </li>
+<li>Click on [Next].</li>
+</ul>
+</li>
+<li>Under the [Configure your new project] page:<ul>
+<li>(Optional) Change the [Project Name] to one of your liking.</li>
+<li>(Optional) Change the [Location].</li>
+<li>Note the [Location] as we need to navigate to it later.</li>
+<li>Click on [Create].</li>
+</ul>
+</li>
+</ul>
+<p>You should see Visual Studios appear on your screen, like so:</p>
+<p><img alt="" src="res/vs2022_empty.png" /></p>
+<p>This means that it has successfully created and opened.</p>
+<p>In this project, we will not be building for 32-bit systems, so to avoid confusion, we need to remove 32-bit system-related configurations from the project.</p>
+<ul>
+<li>Under [Build] &gt; [Configuration Manager] <ul>
+<li>Click on [Active Solution Platform] &gt; [Edit…] &gt; Click on [x86] &gt; [Remove]</li>
+<li>Click on [Platform] &gt; [Edit…] &gt; Click on [Win32] &gt; [Remove]</li>
+</ul>
+</li>
+</ul>
+<h2 id="adding-a-folder-for-cprocessing-and-assets">Adding a folder for CProcessing and assets</h2>
+<p>Next, we will add the CProcessing library to a location within the project folder. 
+This is so that our project can easily locate CProcessing's header and library files, and subsequently use its code.</p>
+<ul>
+<li>Go to the project's Solution File (.sln) using Windows Explorer. It should be at the [Location] that you set earlier.</li>
+<li>Create a folder named "Extern" at that location. Extern is short for "External" which means that this folder will contain code that is provided by someone else.<ul>
+<li>Copy the CProcessing folder from the given <code>CProcessing.zip</code> file into the "Extern" folder.</li>
+</ul>
+</li>
+<li>Create a folder named "Assets" at that location.<ul>
+<li>Copy the given <code>DigiPen_Singapore_WEB_RED.png</code> file into the "Assets" folder you just created</li>
+</ul>
+</li>
+</ul>
+<h2 id="project-configuration">Project Configuration</h2>
+<p>Next, we configure the project properties. 
+Right-click on the project in the Solution Explorer:</p>
+<p><img alt="" src="res/vs2022_project_properties.png" /></p>
+<p>Then click on [Properties]. 
+It should open a window that looks something like this:</p>
+<p><img alt="" src="res/vs2022_project_config.png" /></p>
+<p>This window contains all configurations of the project.</p>
+<p>IMPORTANT: From here on, unless stated otherwise, all the settings we will make will affect both Debug and Release configurations, so make sure to set [Configurations] to <em>All Configurations</em>.</p>
+<p>Add the additional directories the compiler needs to look for when compiling and linking:</p>
+<ul>
+<li>Under [Configuration Properties] &gt; [VC++ Directories]<ul>
+<li>Add <code>$(SolutionDir)Extern\CProcessing\inc</code> to [General] &gt; [Include Directories]</li>
+<li>Add <code>$(SolutionDir)Extern\CProcessing\lib\x64</code> to [General] &gt; [Library Directories]</li>
+</ul>
+</li>
+</ul>
+<p>WARNING: When you add an entry into a section, you have to seperate each entry with ';'. 
+For example, if the entry for [Include Directories] is: <code>$(VC_IncludePath);$(WindowsSDK_IncludePath)</code>, to add <code>$(SolutionDir)Extern\CProcessing\inc</code>, you will have to do: <code>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)Extern\CProcessing\inc</code></p>
+<p>Configure the linker to link to the appropriate CProcessing library files depending on whether we are on Debug or Release configurations:</p>
+<ul>
+<li>Under [Configuration Properties] &gt; [Linker] &gt; [Input] &gt; [Additional Dependencies]<ul>
+<li>With [Configuration] set to <em>Debug</em>, add <code>CProcessingd.lib</code></li>
+<li>With [Configuration] set to <em>Release</em>, add <code>CProcessing.lib</code></li>
+</ul>
+</li>
+</ul>
+<p>Configure the character set the project is using:</p>
+<ul>
+<li>Under [Configuration Properties] &gt; [Advanced] &gt; [Character Set]<ul>
+<li>Set to <em>Use Multibyte Set</em></li>
+</ul>
+</li>
+</ul>
+<p>Configure the subsystem the project is using:</p>
+<ul>
+<li>Under [Configuration Properties] &gt; [Linker] &gt; [System] &gt; [Subsystem]<ul>
+<li>Set to <em>Windows (/SUBSYSTEM:WINDOWS)</em></li>
+</ul>
+</li>
+</ul>
+<p>Set the output directory of the compiler where the executable will be created. 
+We will set this to a folder named <em>bin</em> at the directory the Solution file is in:</p>
+<ul>
+<li>Under [Configuration Properties] &gt; [General] &gt; [Output Directory]<ul>
+<li>Set to <code>$(SolutionDir)bin\$(Configuration)-$(Platform)\</code></li>
+</ul>
+</li>
+</ul>
+<p>Set the intermediate directory of the compiler. 
+This is where all the 'rubbish' files that the compiler generates will go to.<br />
+We will set this to a folder named ".tmp" at the directory the Solution file is in:</p>
+<ul>
+<li>Under [Configuration Properties] &gt; [General] &gt; [Intermediate Directory]<ul>
+<li>Set to <code>$(SolutionDir).tmp\$(Configuration)-$(Platform)\</code></li>
+</ul>
+</li>
+</ul>
+<p>Set the working directory of the debugger to be in the same directory as the executables output by the compiler:</p>
+<ul>
+<li>Under [Configuration Properties] &gt; [Debugging] &gt; [Working Directory]<ul>
+<li>Set to <code>$(SolutionDir)bin\$(Configuration)-$(Platform)\</code></li>
+</ul>
+</li>
+</ul>
+<p>Configure the entry point to comply with CProcessing's entry point:</p>
+<ul>
+<li>Under [Configuration Properties] &gt; [Linker] &gt; [Advanced] &gt; [Entry Point]<ul>
+<li>Set to <code>mainCRTStartup</code></li>
+</ul>
+</li>
+</ul>
+<p>Tell Visual Studios to copy the appropriate .dll and assets to where the executable is after it's done building:</p>
+<ul>
+<li>With [Configuration] set to <em>Debug</em>:<ul>
+<li>Go to [Configuration Properties] -&gt; [Build Events] &gt; [Post-Build Event] &gt; [Command Line] &gt; Click on the [v] icon at the end of the [Command Line] entry area &gt; [Edit...] and add the following lines in the popup window:<ul>
+<li><code>xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</code></li>
+<li><code>xcopy "$(SolutionDir)Extern\CProcessing\lib\x64\CProcessingd.dll" "$(OutDir)" /s /r /y /q</code></li>
+<li><code>xcopy "$(SolutionDir)Extern\CProcessing\lib\x64\fmodL.dll" "$(OutDir)" /s /r /y /q</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>With [Configuration] set to <em>Release</em>, add the following lines:<ul>
+<li>Go to [Configuration Properties] -&gt; [Build Events] &gt; [Post-Build Event] &gt; [Command Line] &gt; Click on the [v] icon at the end of the [Command Line] entry area &gt; [Edit...] and add the following lines in the popup window:<ul>
+<li><code>xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</code></li>
+<li><code>xcopy "$(SolutionDir)Extern\CProcessing\lib\x64\CProcessing.dll" "$(OutDir)" /s /r /y /q</code></li>
+<li><code>xcopy "$(SolutionDir)Extern\CProcessing\lib\x64\fmod.dll" "$(OutDir)" /s /r /y /q</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="running-our-first-application">Running our first application</h2>
+<p>Create a fresh CPP file with the entry point function and name it "main.c"</p>
+<ul>
+<li>[Project] &gt; [Add New Item..] &gt; [C++ File]</li>
+<li>Copy the code from the given "main.c" into the "main.c" file that you just created.</li>
+<li>Build and run the project</li>
+<li>You should see a window pop up with the singapore DigiPen logo.</li>
+</ul>
+<p>If you got here, congratulations! You have set up CProcessing!</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.expand", "content.code.copy", "content.code.select"], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c8b220af.min.js"></script>
+      
+    
+  </body>
+</html>
