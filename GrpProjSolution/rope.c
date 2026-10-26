@@ -139,7 +139,7 @@ void VerletRope_Init(VerletRope* rope, CP_Vector anchor, CP_Vector end, float ro
 }
 
 
-// VerletRope_SetGravity
+// VerletRope_SetGravity - Setting the gravity onto the rope hinges to have the pulling effect.
 
 void VerletRope_SetGravity(VerletRope* rope, CP_Vector gravity)
 {
@@ -150,7 +150,7 @@ void VerletRope_SetGravity(VerletRope* rope, CP_Vector gravity)
 
 // VerletRope_SetEndMass - the candy's weight, clamped so it can be divided by.
 // Sets how heavy the last hinge of the rope is.
-//When mass changes, every hinge falls at the same rate.
+// When mass changes, every hinge falls at the same rate.
 
 void VerletRope_SetEndMass(VerletRope* rope, float mass)
 {
@@ -184,7 +184,7 @@ void VerletRope_Update(VerletRope* rope, float dt)
 		Rope_ClampToReach(rope, &end->pos);
 }
 
-// VerletRope_GetEnd
+// VerletRope_GetEnd - Getting the end part of the rope.
 
 CP_Vector VerletRope_GetEnd(const VerletRope* rope)
 {
@@ -194,8 +194,7 @@ CP_Vector VerletRope_GetEnd(const VerletRope* rope)
 }
 
 
-// VerletRope_Draw - one line per segment. Round caps hide the joins between segments;
-// the cap mode is put back to the CProcessing default afterwards.
+// VerletRope_Draw - one line per segment. Round caps hide the joins between segments,
 
 void VerletRope_Draw(const VerletRope* rope, CP_Color color, float thickness)
 {
