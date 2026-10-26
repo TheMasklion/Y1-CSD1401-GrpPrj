@@ -10,6 +10,7 @@
 
 #include "utils.h"
 #include "game.h"
+#include "ropegame.h"	// ROPE: the rope game state (rope on the candy, fixed length)
 #include "mainmenu.h"
 #include "cprocessing.h"
 #include <stdio.h>
@@ -59,7 +60,7 @@ void Main_Menu_Update(void)
 	//printf("%d",IsAreaClicked(BTN_X, BTN_Y_PLAY, BTN_WIDTH, BTN_HEIGHT, CP_Input_GetMouseX(), CP_Input_GetMouseY()));
 	if (CP_Input_MouseClicked() && IsAreaClicked(BTN_X, BTN_Y_PLAY, BTN_WIDTH, BTN_HEIGHT, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 	{
-		CP_Engine_SetNextGameState(Game_Init, Game_Update, Game_Exit);
+		CP_Engine_SetNextGameState(RopeGame_Init, RopeGame_Update, RopeGame_Exit);	// ROPE: Play opens the rope state (was Game_Init, Game_Update, Game_Exit)
 	}
 
 	if (CP_Input_MouseClicked() && IsAreaClicked(BTN_X, BTN_Y_EXIT, BTN_WIDTH, BTN_HEIGHT, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
