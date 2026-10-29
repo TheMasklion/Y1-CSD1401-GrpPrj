@@ -11,14 +11,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Collision.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="mainmenu.h" />
+    <ClInclude Include="rope.h" />
+    <ClInclude Include="ropegame.h" />
     <ClInclude Include="utils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="game.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="mainmenu.c" />
+    <ClCompile Include="rope.c" />
+    <ClCompile Include="ropegame.c" />
+    <ClCompile Include="Collision.c" />
     <ClCompile Include="utils.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
