@@ -24,6 +24,15 @@
     <ClInclude Include="utils.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="rope.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ropegame.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
@@ -36,6 +45,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="game.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rope.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ropegame.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
