@@ -13,12 +13,20 @@
   <ItemGroup>
     <ClInclude Include="game.h" />
     <ClInclude Include="mainmenu.h" />
+    <ClInclude Include="rope.h" />
+    <ClInclude Include="ropecut.h" />
+    <ClInclude Include="ropegame.h" />
+    <ClInclude Include="roperig.h" />
     <ClInclude Include="utils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="game.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="mainmenu.c" />
+    <ClCompile Include="rope.c" />
+    <ClCompile Include="ropecut.c" />
+    <ClCompile Include="ropegame.c" />
+    <ClCompile Include="roperig.c" />
     <ClCompile Include="utils.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
