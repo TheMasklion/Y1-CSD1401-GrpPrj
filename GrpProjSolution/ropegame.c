@@ -22,6 +22,7 @@
 #include "ropecut.h"	// CUT: cutting the rope, loose pieces, fray effect
 #include "roperig.h"	// ROPE2: a second anchor and rope sharing the candy
 #include "mainmenu.h"	// Main_Menu_* so Q can return to the menu (called)
+#include "LevelSelect.h"
 
 // colours, same values as game.c so the state looks like the rest of the game
 #define LIGHT_GREY_BG	CP_Color_Create(200, 200, 200, 255)
@@ -148,8 +149,8 @@ void RopeGame_Update(void)
 		RopeGame_Init();
 
 	// Q: back to the main menu
-	if (CP_Input_KeyDown(KEY_Q))
-		CP_Engine_SetNextGameState(Main_Menu_Init, Main_Menu_Update, Main_Menu_Exit);
+	if (CP_Input_KeyTriggered(KEY_Q))
+		CP_Engine_SetNextGameState(Level_Select_Init, Level_Select_Update, Level_Select_Exit);
 }
 
 void RopeGame_Exit(void)

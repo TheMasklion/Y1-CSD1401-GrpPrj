@@ -10,10 +10,12 @@
 
 #include "utils.h"
 #include "game.h"
-#include "ropegame.h"	// ROPE: the rope game state (rope on the candy, fixed length)
+//#include "ropegame.h"	// ROPE: the rope game state (rope on the candy, fixed length)
+#include "LevelSelect.h"//Level Select > goes to this after clicking Play
 #include "mainmenu.h"
 #include "cprocessing.h"
 #include <stdio.h>
+
 
 
 #define GREY_BG CP_Color_Create(100, 100, 100, 255)
@@ -60,7 +62,7 @@ void Main_Menu_Update(void)
 	//printf("%d",IsAreaClicked(BTN_X, BTN_Y_PLAY, BTN_WIDTH, BTN_HEIGHT, CP_Input_GetMouseX(), CP_Input_GetMouseY()));
 	if (CP_Input_MouseClicked() && IsAreaClicked(BTN_X, BTN_Y_PLAY, BTN_WIDTH, BTN_HEIGHT, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 	{
-		CP_Engine_SetNextGameState(RopeGame_Init, RopeGame_Update, RopeGame_Exit);	// ROPE: Play opens the rope state (was Game_Init, Game_Update, Game_Exit)
+		CP_Engine_SetNextGameState(Level_Select_Init, Level_Select_Update, Level_Select_Exit);	// ROPE: Play opens the level select state (was Game_Init, Game_Update, Game_Exit)
 	}
 
 	if (CP_Input_MouseClicked() && IsAreaClicked(BTN_X, BTN_Y_EXIT, BTN_WIDTH, BTN_HEIGHT, CP_Input_GetMouseX(), CP_Input_GetMouseY()))

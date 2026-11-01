@@ -49,3 +49,20 @@ int IsCircleClicked(float circle_center_x, float circle_center_y, float diameter
 	return 0;
 }
 
+//Jayden Tan utils ---------------------------------------------------------------------------------------------------------------------------------------
+//return the value of i if true means the button got clicked and return that button number
+int LevelClicked(float area_center_x, float area_center_y, float area_width, float area_height, float click_x, float click_y, int i)
+{
+	//return i
+	if (CP_Input_MouseClicked())
+	{
+		// Check if the click is within the area
+		if (click_x >= area_center_x - area_width / 2 && click_x <= area_center_x + area_width / 2 && // <-----X-----> just checking that it is within the x axis from point x
+			click_y >= area_center_y - area_height / 2 && click_y <= area_center_y + area_height / 2) //just checking that it is within the y axis, from point y
+		{
+			//START FROM CASE 1
+			return i+1;
+		}
+	}
+	return 0;
+}
