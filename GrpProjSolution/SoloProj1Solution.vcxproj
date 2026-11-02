@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Collision.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="LevelSelect.h" />
     <ClInclude Include="mainmenu.h" />
@@ -26,6 +27,8 @@
     <ClCompile Include="main.c" />
     <ClCompile Include="mainmenu.c" />
     <ClCompile Include="rope.c" />
+    <ClCompile Include="ropegame.c" />
+    <ClCompile Include="Collision.c" />
     <ClCompile Include="ropecut.c" />
     <ClCompile Include="ropegame.c" />
     <ClCompile Include="roperig.c" />

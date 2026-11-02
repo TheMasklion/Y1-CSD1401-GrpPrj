@@ -30,6 +30,8 @@
     <ClInclude Include="ropegame.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>Source Files</Filter>
     <ClInclude Include="ropecut.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -59,6 +61,7 @@
     <ClCompile Include="ropegame.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Collision.c">
     <ClCompile Include="ropecut.c">
       <Filter>Source Files</Filter>
     </ClCompile>
