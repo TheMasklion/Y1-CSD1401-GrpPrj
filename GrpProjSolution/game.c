@@ -39,7 +39,7 @@
 #define YELLOW_BG		CP_Color_Create(255, 220, 0, 255)	// pig colour once the candy has touched it
 
 //Gasper TEMP: 1 = rope on, candy hangs from it like ropegame.c.  0 = rope off, candy falls freely by its own gravity.
-#define ENABLE_ROPE			1
+#define ENABLE_ROPE			0
 
 // layout and rope tuning
 #define ANCHOR_RADIUS		12.0f
