@@ -32,6 +32,14 @@
     </ClInclude>
     <ClInclude Include="Collision.h">
       <Filter>Source Files</Filter>
+    <ClInclude Include="ropecut.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="roperig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelSelect.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -54,6 +62,13 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Collision.c">
+    <ClCompile Include="ropecut.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="roperig.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelSelect.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

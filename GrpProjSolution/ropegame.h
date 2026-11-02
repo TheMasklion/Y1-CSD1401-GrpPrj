@@ -7,9 +7,10 @@
 //			the rope sags whenever got slack and never stretches.
 //
 //
-//			Controls:
-//				H (hold)	- show the hinges as dots
-//				Q			- back to the main menu
+// Controls:
+// H (hold)	- show the hinges as dots
+// Q - back to the main menu
+// R - reset the rope back to original (Use for testing only)
 
 #pragma once
 
