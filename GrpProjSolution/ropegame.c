@@ -89,7 +89,7 @@ void RopeGame_Init(void)
 	VerletRope_SetEndMass(&rope, CANDY_MASS);
 	VerletRope_SetGravity(&rope, CP_Vector_Set(GRAVITY_X, GRAVITY_Y));	// merge point for the group's gravity vector
 	RopeCutter_Init(&cutter, &rope);	// CUT: after the rope is built; the cutter copies its gravity for the fray
-	cutter.candy_radius = CANDY_RADIUS;	// CUT: cut rope lands on the window bottom and stays; the candy rests on its rim
+	
 
 	// Anchor Point 2 and Rope: second anchor on the side the candy starts (so its rope reaches the candy), with a rope and a
 	//        cutter built as copies of the ones above: same length and hinges, the rope's gravity, damping,

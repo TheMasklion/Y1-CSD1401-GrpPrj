@@ -84,30 +84,16 @@ static void Rig_MergeCandy(RopeRig* rig)
 	rig->candy_pos = pos;
 }
 
-// Every cutter adds a streak for every blade it is given. The game's cutter draws this swipe's streak;
-// an extra cutter's copy of it is dropped so the streak is not drawn once per rope (twice as bright).
-static void Rig_DropNewestSlash(RopeCutter* c, int slash_next_before)
+// Helper to handle cutting either by mouse or direct coordinates
+static int Rig_CutOne(RopeRig* rig, int index, int use_mouse, CP_Vector from, CP_Vector to)
 {
-	if (c->slash_next != slash_next_before)
-		c->slashes[(c->slash_next + ROPECUT_MAX_SLASHES - 1) % ROPECUT_MAX_SLASHES].life = 0.0f;
+	if (use_mouse)
+		return RopeCutter_HandleMouse(rig->cutter[index]);
+	else
+		return RopeCutter_Cut(rig->cutter[index], from, to);
 }
 
-// The candy flags are set first, so a rope cut while another still holds the candy lets go of it, and
-// the last holder to be cut takes it. Returns the cuts made.
-static int Rig_CutOne(RopeRig* rig, int i, int by_mouse, CP_Vector from, CP_Vector to)
-{
-	RopeCutter* c = rig->cutter[i];
-	int slash_before = c->slash_next;
-	int cuts;
-
-	Rig_AssignCandy(rig);
-	cuts = by_mouse ? RopeCutter_HandleMouse(c) : RopeCutter_Cut(c, from, to);
-	if (i > 0)
-		Rig_DropNewestSlash(c, slash_before);
-	return cuts;
-}
-
-//Public Variable
+// Public Variables
 void RopeRig_Init(RopeRig* rig, VerletRope* rope, RopeCutter* cutter)
 {
 	if (rig == NULL)
@@ -138,6 +124,7 @@ int RopeRig_AddRope(RopeRig* rig, CP_Vector anchor, float rope_length, int point
 
 	if (rig == NULL || rig->rope_count < 1 || rig->rope_count >= ROPERIG_MAX_ROPES)
 		return -1;
+
 	i = rig->rope_count;
 	src = rig->rope[0];
 	sc = rig->cutter[0];
@@ -151,22 +138,12 @@ int RopeRig_AddRope(RopeRig* rig, CP_Vector anchor, float rope_length, int point
 	r->iterations = src->iterations;
 	VerletRope_SetEndMass(r, src->points[src->point_count - 1].mass);	// the same candy weighs the same on every rope
 
-	// the cutter: the game cutter's settings, so every rope cuts, recoils, frays, fades and lands alike
+	// Initialize the cutter for this new rope
 	RopeCutter_Init(c, r);
-	c->kill_y = sc->kill_y;
-	c->kill_x_min = sc->kill_x_min;
-	c->kill_x_max = sc->kill_x_max;
 	c->vanish_on = sc->vanish_on;
-	c->floor_on = sc->floor_on;
-	c->floor_y = sc->floor_y;
-	c->candy_radius = sc->candy_radius;
 	c->blade_radius = sc->blade_radius;
-	c->recoil = sc->recoil;
-	c->blade_push = sc->blade_push;
 	c->loose_damping = sc->loose_damping;
 	c->recut_cooldown = sc->recut_cooldown;
-	c->floor_bounce = sc->floor_bounce;
-	c->floor_friction = sc->floor_friction;
 	c->vanish_time = sc->vanish_time;
 
 	rig->rope[i] = r;
@@ -198,7 +175,7 @@ void RopeRig_Update(RopeRig* rig, float dt)
 		Rig_CutOne(rig, i, 1, CP_Vector_Zero(), CP_Vector_Zero());
 	Rig_AssignCandy(rig);
 
-	// 4. step the extra cutters' loose pieces, fray and streaks (the game steps cutter 0)
+	// 4. step the extra cutters' loose pieces (the game steps cutter 0)
 	for (i = 1; i < rig->rope_count; ++i)
 		RopeCutter_Update(rig->cutter[i], dt);
 }
