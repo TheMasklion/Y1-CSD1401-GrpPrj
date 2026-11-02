@@ -30,7 +30,6 @@
     <ClCompile Include="ropegame.c" />
     <ClCompile Include="Collision.c" />
     <ClCompile Include="ropecut.c" />
-    <ClCompile Include="ropegame.c" />
     <ClCompile Include="roperig.c" />
     <ClCompile Include="utils.c" />
   </ItemGroup>
