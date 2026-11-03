@@ -71,6 +71,7 @@ static Circle anchor;
 static FallingCandy candy;		// follows the rope end while attached, moves by its own gravity once cut
 static CP_Vector candy_start;	// where the candy is placed on init
 static int candy_reached_pig;	// 1 once the candy has touched the pig
+static int candy_lost;			// 1 once the candy has left the bottom or sides of the screen
 static Circle pig;
 static VerletRope rope;
 static RopeCutter cutter;
@@ -83,6 +84,18 @@ static void Candy_Reset(void)
 	candy.y = candy_start.y;
 	candy.vy = 0.0f;
 	candy_reached_pig = 0;
+	candy_lost = 0;
+}
+
+// The candy has fully left the bottom or either side of the screen (top is not checked, the rope can swing it up there).
+static int Candy_IsOffScreen(void)
+{
+	float screen_w = (float)CP_System_GetWindowWidth();
+	float screen_h = (float)CP_System_GetWindowHeight();
+
+	return (candy.y - candy.r > screen_h) ||
+		(candy.x + candy.r < 0.0f) ||
+		(candy.x - candy.r > screen_w);
 }
 
 // Gravity: speed builds up each frame until it hits the limit, then the candy moves by that speed.
@@ -167,6 +180,11 @@ void RopeGame_Update(void)
 		{
 			Candy_Update(dt);
 		}
+		//Candy out of screen, reset
+		if (Candy_IsOffScreen())
+			candy_lost = 1;
+		if (candy_lost)
+			RopeGame_Init();
 
 		// candy-pig collision: once set, the candy is gone
 		if (IsCircleOverlapping(candy.x, candy.y, candy.r, pig.x, pig.y, pig.r))
