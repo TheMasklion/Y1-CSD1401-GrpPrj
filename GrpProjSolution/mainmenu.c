@@ -31,13 +31,6 @@
 #define BTN_Y_PLAY (float)(CP_System_GetWindowHeight() / 4.25f)
 #define BTN_Y_EXIT (float)(CP_System_GetWindowHeight() / 1.45f)
 
-// TEMP: Play2Game button that opens the old game.c state. Set to 0 to disable it.
-#define ENABLE_PLAY2GAME 1
-#if ENABLE_PLAY2GAME
-#define BTN_Y_PLAY2 (float)(CP_System_GetWindowHeight() / 2.15f)	// sits between Play and Exit
-#define FONT_SIZE_PLAY2 50.0f	// smaller so "Play2Game" fits inside the button
-#endif
-
 CP_Font myFont;
 
 
@@ -53,9 +46,6 @@ void Main_Menu_Update(void)
 	CP_Graphics_ClearBackground(GREY_BG);
 	CP_Settings_Fill(REDDISH_PINK_BG); //Play Button colour
 	CP_Graphics_DrawRect(BTN_X, BTN_Y_PLAY, BTN_WIDTH, BTN_HEIGHT); //Play Button
-#if ENABLE_PLAY2GAME
-	CP_Graphics_DrawRect(BTN_X, BTN_Y_PLAY2, BTN_WIDTH, BTN_HEIGHT); //TEMP: Play2Game Button
-#endif
 	CP_Graphics_DrawRect(BTN_X, BTN_Y_EXIT, BTN_WIDTH, BTN_HEIGHT); //Exit Button
 
 
@@ -65,10 +55,6 @@ void Main_Menu_Update(void)
 	CP_Settings_Fill(BLACK_BG); //Play text colour
 	CP_Font_DrawText("Play", BTN_X, BTN_Y_PLAY); //Play Button Text
 	CP_Font_DrawText("Exit", BTN_X, BTN_Y_EXIT); //Exit Button Text)
-#if ENABLE_PLAY2GAME
-	CP_Settings_TextSize(FONT_SIZE_PLAY2);
-	CP_Font_DrawText("Play2Game", BTN_X, BTN_Y_PLAY2); //TEMP: Play2Game Button Text
-#endif
 
 
 	//Checking if the buttons are clicked
@@ -79,13 +65,6 @@ void Main_Menu_Update(void)
 		CP_Engine_SetNextGameState(Level_Select_Init, Level_Select_Update, Level_Select_Exit);	// ROPE: Play opens the level select state (was Game_Init, Game_Update, Game_Exit)
 	}
 
-#if ENABLE_PLAY2GAME
-	// TEMP: Play2Game opens the old game.c state (no rope physics)
-	if (CP_Input_MouseClicked() && IsAreaClicked(BTN_X, BTN_Y_PLAY2, BTN_WIDTH, BTN_HEIGHT, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
-	{
-		CP_Engine_SetNextGameState(Game_Init, Game_Update, Game_Exit);
-	}
-#endif
 
 	if (CP_Input_MouseClicked() && IsAreaClicked(BTN_X, BTN_Y_EXIT, BTN_WIDTH, BTN_HEIGHT, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 	{

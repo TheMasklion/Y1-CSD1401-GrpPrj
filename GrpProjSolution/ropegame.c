@@ -23,6 +23,7 @@
 #include "roperig.h"	// ROPE2: a second anchor and rope sharing the candy
 #include "mainmenu.h"	// Main_Menu_* so Q can return to the menu (called)
 #include "LevelSelect.h"
+#include "collision.h"	// IsCircleOverlapping, for the candy-pig test
 
 // colours, same values as game.c so the state looks like the rest of the game
 #define LIGHT_GREY_BG	CP_Color_Create(200, 200, 200, 255)
@@ -30,6 +31,8 @@
 #define RED_BG			CP_Color_Create(255, 0, 0, 255)
 #define GREEN_BG		CP_Color_Create(0, 255, 0, 255)
 #define DARK_GREY_BG	CP_Color_Create(60, 60, 60, 255)
+#define YELLOW_BG		CP_Color_Create(255, 220, 0, 255)	// pig colour once the candy has touched it
+
 
 // layout and rope tuning
 #define ANCHOR_RADIUS		12.0f
@@ -47,7 +50,8 @@
 #define ANCHOR2_OFFSET_X	400.0f	// ROPE2: the second anchor sits this far to the side of the first, at the same height, on the
 									//        side the candy starts. 400 px apart with two 300 px ropes puts the candy at the bottom of
 									//        a V (each rope ~42 degrees from vertical) with the second rope a little slack at the start.
-
+#define MAX_FALL_SPEED	1200.0f			// the free candy never falls faster than this, pixels / second
+#define MAX_DT			(1.0f / 30.0f)	// longest frame step used, so a long frame cannot make the candy jump
 typedef struct
 {
 	float x;
@@ -55,12 +59,41 @@ typedef struct
 	float r;
 } Circle;
 
-static Circle anchor;			// fixed point the rope hangs from
-static Circle candy;			// drawn at the last hinge of the rope every frame
-static Circle pig;				// bottom of the screen, under the anchor
-static VerletRope rope;			// hinge 0 at the anchor, last hinge is the candy
-static RopeCutter cutter;		// CUT: cuts rope in place, owns the loose pieces and the fray effect
-static RopeRig rig;				// ROPE2: the rope and cutter above plus the second anchor's own rope and cutter, one shared candy
+// The candy has its own fall speed because it is not held by the rope once cut.
+typedef struct
+{
+	float x;
+	float y;
+	float r;
+	float vy;		// fall speed, pixels / second, +y is down
+} FallingCandy;
+
+static Circle anchor;
+static FallingCandy candy;		// follows the rope end while attached, moves by its own gravity once cut
+static CP_Vector candy_start;	// where the candy is placed on init
+static int candy_reached_pig;	// 1 once the candy has touched the pig
+static Circle pig;
+static VerletRope rope;
+static RopeCutter cutter;
+static RopeRig rig;
+
+// Resets the candy to its start position, clears the candy_reached_pig flag, and sets the candy's fall speed to 0.
+static void Candy_Reset(void)
+{
+	candy.x = candy_start.x;
+	candy.y = candy_start.y;
+	candy.vy = 0.0f;
+	candy_reached_pig = 0;
+}
+
+// Gravity: speed builds up each frame until it hits the limit, then the candy moves by that speed.
+static void Candy_Update(float dt)
+{
+	candy.vy += GRAVITY_Y * dt;
+	if (candy.vy > MAX_FALL_SPEED)
+		candy.vy = MAX_FALL_SPEED;
+	candy.y += candy.vy * dt;
+}
 
 void RopeGame_Init(void)
 {
@@ -68,7 +101,6 @@ void RopeGame_Init(void)
 	float screen_h = (float)CP_System_GetWindowHeight();
 	CP_Vector anchor_pos;
 	CP_Vector start_dir;
-	CP_Vector candy_start;
 
 	// anchor: top middle of the screen
 	anchor.x = screen_w / 2.0f;
@@ -83,6 +115,10 @@ void RopeGame_Init(void)
 	candy.x = candy_start.x;
 	candy.y = candy_start.y;
 	candy.r = CANDY_RADIUS;
+
+	candy_start = CP_Vector_Add(anchor_pos, CP_Vector_Scale(start_dir, ROPE_LENGTH));
+	candy.r = CANDY_RADIUS;
+	Candy_Reset();
 
 	// rope: hinges from the anchor to the candy, anchor pinned, candy heavy, gravity as a vector
 	VerletRope_Init(&rope, anchor_pos, candy_start, ROPE_LENGTH, ROPE_POINTS);
@@ -109,18 +145,40 @@ void RopeGame_Init(void)
 void RopeGame_Update(void)
 {
 	CP_Vector rope_end;
+	float dt = CP_System_GetDt();
+	if (dt > MAX_DT)
+		dt = MAX_DT;
 
 	// 1. physics: every hinge is pulled down by its weight, the segments hold the rope together
-	VerletRope_Update(&rope, CP_System_GetDt());
-	RopeRig_Update(&rig, CP_System_GetDt());			// ROPE2: steps the second rope, merges the shared candy, offers this frame's mouse move as
+	VerletRope_Update(&rope, dt);
+	RopeRig_Update(&rig, dt);			// ROPE2: steps the second rope, merges the shared candy, offers this frame's mouse move as
 														//        the blade to BOTH cutters (so the HandleMouse line below finds no new movement)
 	RopeCutter_HandleMouse(&cutter);					// CUT: left drag = blade, cuts rope / loose pieces it crosses
-	RopeCutter_Update(&cutter, CP_System_GetDt());		// CUT: loose pieces fall (VerletRope_Update), fray and streak fade
+	RopeCutter_Update(&cutter, dt);		// CUT: loose pieces fall (VerletRope_Update), fray and streak fade
 
 	// 2. the candy hangs from the last hinge
-	rope_end = RopeRig_GetCandy(&rig);			// ROPE2: was RopeCutter_GetCandy(&cutter): the shared end while any rope holds the candy, the falling piece's end once both are cut
-	candy.x = rope_end.x;
-	candy.y = rope_end.y;
+	if (!candy_reached_pig)
+	{
+		if (RopeRig_GetCandyState(&rig) == ROPECUT_CANDY_ATTACHED)
+		{
+			rope_end = RopeRig_GetCandy(&rig);
+			candy.x = rope_end.x;
+			candy.y = rope_end.y;
+			candy.vy = 0.0f;
+		}
+		else
+		{
+			Candy_Update(dt);
+		}
+
+		// candy-pig collision: once set, the candy is gone
+		if (IsCircleOverlapping(candy.x, candy.y, candy.r, pig.x, pig.y, pig.r))
+			candy_reached_pig = 1;
+	}
+
+	// candy-pig collision: stays set after the first touch
+	if (IsCircleOverlapping(candy.x, candy.y, candy.r, pig.x, pig.y, pig.r))
+		candy_reached_pig = 1;
 
 	// 3. draw: rope first so the anchor and candy sit on top of it
 	CP_Graphics_ClearBackground(LIGHT_GREY_BG);
@@ -139,10 +197,14 @@ void RopeGame_Update(void)
 	CP_Settings_Fill(DARK_GREY_BG);
 	CP_Graphics_DrawCircle(anchor.x, anchor.y, anchor.r * 2.0f);
 	RopeRig_DrawAnchors(&rig, DARK_GREY_BG, anchor.r * 2.0f);	// ROPE2: the second anchor, same look
-	CP_Settings_Fill(RED_BG);
-	CP_Graphics_DrawCircle(candy.x, candy.y, candy.r * 2.0f);
-	CP_Settings_Fill(GREEN_BG);
+	if (!candy_reached_pig)
+	{
+		CP_Settings_Fill(RED_BG);
+		CP_Graphics_DrawCircle(candy.x, candy.y, candy.r * 2.0f);
+	}
+	CP_Settings_Fill(candy_reached_pig ? YELLOW_BG : GREEN_BG);
 	CP_Graphics_DrawCircle(pig.x, pig.y, pig.r * 2.0f);
+
 
 	// R: new rope (CUT: handy once the candy has been dropped)
 	if (CP_Input_KeyTriggered(KEY_R))
