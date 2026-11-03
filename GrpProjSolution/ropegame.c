@@ -1,7 +1,7 @@
 // file:	ropegame.c
-// author:	NG JIA XUAN
-// email:	n.jiaxuan@digipen.edu
+// author:	Everyone
 //
+// Jia Xuans Notes:
 // Overview:Game state for the Verlet rope. See ropegame.h for the hook-up
 //			line and the controls.
 //
@@ -17,6 +17,7 @@
 //			ROPE2: the lines marked ROPE2: hook roperig.h in: a second anchor off to the side with its own rope
 //			       (same rope physics, same cutting) on the same candy. Cut one rope and the candy swings on the
 //			       other; cut both (or swipe through both) and it falls.
+
 #include "ropegame.h"
 #include "rope.h"
 #include "ropecut.h"	// CUT: cutting the rope, loose pieces, fray effect
@@ -87,7 +88,7 @@ static void Candy_Reset(void)
 	candy_lost = 0;
 }
 
-// The candy has fully left the bottom or either side of the screen (top is not checked, the rope can swing it up there).
+// The candy has fully left the bottom or either side of the screen.
 static int Candy_IsOffScreen(void)
 {
 	float screen_w = (float)CP_System_GetWindowWidth();
