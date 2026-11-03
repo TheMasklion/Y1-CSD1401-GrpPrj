@@ -51,7 +51,6 @@
 									//        side the candy starts. 400 px apart with two 300 px ropes puts the candy at the bottom of
 									//        a V (each rope ~42 degrees from vertical) with the second rope a little slack at the start.
 #define MAX_FALL_SPEED	1200.0f			// the free candy never falls faster than this, pixels / second
-#define MAX_DT			(1.0f / 30.0f)	// longest frame step used, so a long frame cannot make the candy jump
 typedef struct
 {
 	float x;
@@ -146,8 +145,6 @@ void RopeGame_Update(void)
 {
 	CP_Vector rope_end;
 	float dt = CP_System_GetDt();
-	if (dt > MAX_DT)
-		dt = MAX_DT;
 
 	// 1. physics: every hinge is pulled down by its weight, the segments hold the rope together
 	VerletRope_Update(&rope, dt);
