@@ -12,7 +12,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Collision.h" />
-    <ClInclude Include="game.h" />
     <ClInclude Include="LevelSelect.h" />
     <ClInclude Include="mainmenu.h" />
     <ClInclude Include="rope.h" />
@@ -22,7 +21,6 @@
     <ClInclude Include="utils.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="game.c" />
     <ClCompile Include="LevelSelect.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="mainmenu.c" />

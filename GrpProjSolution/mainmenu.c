@@ -9,7 +9,6 @@
 //---------------------------------------------------------
 
 #include "utils.h"
-#include "game.h"
 //#include "ropegame.h"	// ROPE: the rope game state (rope on the candy, fixed length)
 #include "LevelSelect.h"//Level Select > goes to this after clicking Play
 #include "mainmenu.h"

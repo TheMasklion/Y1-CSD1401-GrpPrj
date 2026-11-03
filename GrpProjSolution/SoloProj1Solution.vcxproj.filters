@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="game.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="mainmenu.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -32,7 +29,7 @@
     </ClInclude>
     <ClInclude Include="Collision.h">
       <Filter>Source Files</Filter>
-    </ClInclude>    
+    </ClInclude>
     <ClInclude Include="ropecut.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -51,9 +48,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="utils.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="game.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rope.c">
