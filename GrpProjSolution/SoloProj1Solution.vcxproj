@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Collision.h" />
+    <ClInclude Include="gameover.h" />
     <ClInclude Include="LevelSelect.h" />
     <ClInclude Include="mainmenu.h" />
     <ClInclude Include="rope.h" />
@@ -21,6 +22,7 @@
     <ClInclude Include="utils.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="gameover.c" />
     <ClCompile Include="LevelSelect.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="mainmenu.c" />

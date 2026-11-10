@@ -25,6 +25,7 @@
 #include "mainmenu.h"	// Main_Menu_* so Q can return to the menu (called)
 #include "LevelSelect.h"
 #include "collision.h"	// IsCircleOverlapping, for the candy-pig test
+#include "gameover.h"
 
 // colours, same values as game.c so the state looks like the rest of the game
 #define LIGHT_GREY_BG	CP_Color_Create(200, 200, 200, 255)
@@ -33,7 +34,6 @@
 #define GREEN_BG		CP_Color_Create(0, 255, 0, 255)
 #define DARK_GREY_BG	CP_Color_Create(60, 60, 60, 255)
 #define YELLOW_BG		CP_Color_Create(255, 220, 0, 255)	// pig colour once the candy has touched it
-
 
 // layout and rope tuning
 #define ANCHOR_RADIUS		12.0f
@@ -195,12 +195,11 @@ void RopeGame_Update(void)
 		{
 			Candy_Update(dt);
 		}
-		//Candy out of screen, reset
-		if (Candy_IsOffScreen())
-			candy_lost = 1;
-		if (candy_lost)
-			RopeGame_Init();
-
+		//Candy out of screen, display game over //*Jayden part links from here game over screen 
+		if (Candy_IsOffScreen()) 
+		{
+			CP_Engine_SetNextGameState(GameOver_Init, GameOver_Update, GameOver_Exit);
+		}
 		// candy-pig collision: once set, the candy is gone
 		if (IsCircleOverlapping(candy.x, candy.y, candy.r, pig.x, pig.y, pig.r))
 		{
