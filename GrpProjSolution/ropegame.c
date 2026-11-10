@@ -52,6 +52,8 @@
 									//        side the candy starts. 400 px apart with two 300 px ropes puts the candy at the bottom of
 									//        a V (each rope ~42 degrees from vertical) with the second rope a little slack at the start.
 #define MAX_FALL_SPEED	1200.0f			// the free candy never falls faster than this, pixels / second
+#define PIG_FRAMES		2				// frames stacked top to bottom in Pig.png
+
 typedef struct
 {
 	float x;
@@ -68,12 +70,21 @@ typedef struct
 	float vy;		// fall speed, pixels / second, +y is down
 } FallingCandy;
 
+typedef enum
+{
+	PIG_NORMAL,		// frame 0, top half of Pig.png
+	PIG_HAPPY		// frame 1, bottom half of Pig.png
+} PigState;
+
 static Circle anchor;
 static FallingCandy candy;		// follows the rope end while attached, moves by its own gravity once cut
 static CP_Vector candy_start;	// where the candy is placed on init
 static int candy_reached_pig;	// 1 once the candy has touched the pig
 static int candy_lost;			// 1 once the candy has left the bottom or sides of the screen
 static Circle pig;
+static PigState pig_state;		// which frame of Pig.png is drawn
+static CP_Image candy_img;
+static CP_Image pig_img;
 static VerletRope rope;
 static RopeCutter cutter;
 static RopeRig rig;
@@ -86,6 +97,7 @@ static void Candy_Reset(void)
 	candy.vy = 0.0f;
 	candy_reached_pig = 0;
 	candy_lost = 0;
+	pig_state = PIG_NORMAL;
 }
 
 // The candy has fully left the bottom or either side of the screen.
@@ -125,11 +137,6 @@ void RopeGame_Init(void)
 	// so the rope swings as soon as the state starts. The angle's sign only picks the side.
 	start_dir = CP_Vector_MatrixMultiply(CP_Matrix_Rotate(ROPE_START_ANGLE), CP_Vector_Set(0.0f, 1.0f));
 	candy_start = CP_Vector_Add(anchor_pos, CP_Vector_Scale(start_dir, ROPE_LENGTH));
-	candy.x = candy_start.x;
-	candy.y = candy_start.y;
-	candy.r = CANDY_RADIUS;
-
-	candy_start = CP_Vector_Add(anchor_pos, CP_Vector_Scale(start_dir, ROPE_LENGTH));
 	candy.r = CANDY_RADIUS;
 	Candy_Reset();
 
@@ -138,7 +145,7 @@ void RopeGame_Init(void)
 	VerletRope_SetEndMass(&rope, CANDY_MASS);
 	VerletRope_SetGravity(&rope, CP_Vector_Set(GRAVITY_X, GRAVITY_Y));	// merge point for the group's gravity vector
 	RopeCutter_Init(&cutter, &rope);	// CUT: after the rope is built; the cutter copies its gravity for the fray
-	
+
 
 	// Anchor Point 2 and Rope: second anchor on the side the candy starts (so its rope reaches the candy), with a rope and a
 	//        cutter built as copies of the ones above: same length and hinges, the rope's gravity, damping,
@@ -148,11 +155,18 @@ void RopeGame_Init(void)
 	//Anchor Point 3 and Rope
 	RopeRig_AddRope(&rig, CP_Vector_Set(candy.x + 400.0f, candy.y - 150.0f), ROPE_LENGTH, ROPE_POINTS);	// for the third anchor, where it sets the position and rope is connected to anchor point 3 with the same cutting effect.
 	//Copy and paste the RopeRig_AddRope if want more anchor points attacted to the candy with the same cutting rope effect. As it is just a replicate of the first 2 anchor points.
-	
+
 	// pig: bottom of the screen, directly below the anchor
 	pig.r = PIG_RADIUS;
 	pig.x = anchor.x;
 	pig.y = screen_h - pig.r;
+
+	// sprites: loaded once (Init runs again on R and on candy lost), freed in RopeGame_Exit
+	if (candy_img == NULL)
+		candy_img = CP_Image_Load("Assets/Candy.png");
+	if (pig_img == NULL)
+		pig_img = CP_Image_Load("Assets/Pig.png");
+	CP_Settings_ImageFilterMode(CP_IMAGE_FILTER_NEAREST);	// keeps pixel art crisp when scaled up
 }
 
 void RopeGame_Update(void)
@@ -163,7 +177,7 @@ void RopeGame_Update(void)
 	// 1. physics: every hinge is pulled down by its weight, the segments hold the rope together
 	VerletRope_Update(&rope, dt);
 	RopeRig_Update(&rig, dt);			// ROPE2: steps the second rope, merges the shared candy, offers this frame's mouse move as
-														//        the blade to BOTH cutters (so the HandleMouse line below finds no new movement)
+	//        the blade to BOTH cutters (so the HandleMouse line below finds no new movement)
 	RopeCutter_HandleMouse(&cutter);					// CUT: left drag = blade, cuts rope / loose pieces it crosses
 	RopeCutter_Update(&cutter, dt);		// CUT: loose pieces fall (VerletRope_Update), fray and streak fade
 
@@ -189,12 +203,11 @@ void RopeGame_Update(void)
 
 		// candy-pig collision: once set, the candy is gone
 		if (IsCircleOverlapping(candy.x, candy.y, candy.r, pig.x, pig.y, pig.r))
+		{
 			candy_reached_pig = 1;
+			pig_state = PIG_HAPPY;
+		}
 	}
-
-	// candy-pig collision: stays set after the first touch
-	if (IsCircleOverlapping(candy.x, candy.y, candy.r, pig.x, pig.y, pig.r))
-		candy_reached_pig = 1;
 
 	// 3. draw: rope first so the anchor and candy sit on top of it
 	CP_Graphics_ClearBackground(LIGHT_GREY_BG);
@@ -214,12 +227,16 @@ void RopeGame_Update(void)
 	CP_Graphics_DrawCircle(anchor.x, anchor.y, anchor.r * 2.0f);
 	RopeRig_DrawAnchors(&rig, DARK_GREY_BG, anchor.r * 2.0f);	// ROPE2: the second anchor, same look
 	if (!candy_reached_pig)
+		CP_Image_Draw(candy_img, candy.x, candy.y, candy.r * 2.0f, candy.r * 2.0f, 255);
+
 	{
-		CP_Settings_Fill(RED_BG);
-		CP_Graphics_DrawCircle(candy.x, candy.y, candy.r * 2.0f);
+		float frame_w = (float)CP_Image_GetWidth(pig_img);
+		float frame_h = (float)CP_Image_GetHeight(pig_img) / PIG_FRAMES;
+		float v0 = (float)pig_state * frame_h;		// top edge of the chosen frame
+
+		CP_Image_DrawSubImage(pig_img, pig.x, pig.y, pig.r * 2.0f, pig.r * 2.0f,
+			0.0f, v0, frame_w, v0 + frame_h, 255);
 	}
-	CP_Settings_Fill(candy_reached_pig ? YELLOW_BG : GREEN_BG);
-	CP_Graphics_DrawCircle(pig.x, pig.y, pig.r * 2.0f);
 
 
 	// R: new rope (CUT: handy once the candy has been dropped)
@@ -233,5 +250,8 @@ void RopeGame_Update(void)
 
 void RopeGame_Exit(void)
 {
-
+	CP_Image_Free(candy_img);
+	candy_img = NULL;
+	CP_Image_Free(pig_img);
+	pig_img = NULL;
 }

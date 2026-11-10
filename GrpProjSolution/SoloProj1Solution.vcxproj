@@ -31,6 +31,13 @@
     <ClCompile Include="roperig.c" />
     <ClCompile Include="utils.c" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\Candy.png" />
+    <Image Include="Assets\Pig.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Assets\Exo2-Regular.ttf" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>

@@ -13,23 +13,11 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Assets">
+      <UniqueIdentifier>{5b281349-703b-4b57-896c-e0b38a7da1ad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="mainmenu.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="utils.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="rope.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ropegame.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Collision.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="ropecut.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -37,6 +25,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LevelSelect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rope.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mainmenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ropegame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -68,5 +71,18 @@
     <ClCompile Include="LevelSelect.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\Candy.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Pig.png">
+      <Filter>Assets</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Assets\Exo2-Regular.ttf">
+      <Filter>Assets</Filter>
+    </Font>
   </ItemGroup>
 </Project>
