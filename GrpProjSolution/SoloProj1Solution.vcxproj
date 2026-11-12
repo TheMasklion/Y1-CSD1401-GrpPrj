@@ -15,6 +15,7 @@
     <ClInclude Include="gameover.h" />
     <ClInclude Include="LevelSelect.h" />
     <ClInclude Include="mainmenu.h" />
+    <ClInclude Include="PigCandy.h" />
     <ClInclude Include="rope.h" />
     <ClInclude Include="ropecut.h" />
     <ClInclude Include="ropegame.h" />
@@ -31,6 +32,7 @@
     <ClCompile Include="Collision.c" />
     <ClCompile Include="ropecut.c" />
     <ClCompile Include="roperig.c" />
+    <ClCompile Include="PigCandy.c" />
     <ClCompile Include="utils.c" />
   </ItemGroup>
   <ItemGroup>

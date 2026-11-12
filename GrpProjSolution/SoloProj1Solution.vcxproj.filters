@@ -45,6 +45,9 @@
     <ClInclude Include="gameover.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PigCandy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
@@ -75,6 +78,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="gameover.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PigCandy.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

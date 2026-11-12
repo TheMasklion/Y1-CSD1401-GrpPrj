@@ -26,6 +26,7 @@
 #include "LevelSelect.h"
 #include "collision.h"	// IsCircleOverlapping, for the candy-pig test
 #include "gameover.h"
+#include "PigCandy.h"
 
 // colours, same values as game.c so the state looks like the rest of the game
 #define LIGHT_GREY_BG	CP_Color_Create(200, 200, 200, 255)
@@ -51,8 +52,6 @@
 #define ANCHOR2_OFFSET_X	400.0f	// ROPE2: the second anchor sits this far to the side of the first, at the same height, on the
 									//        side the candy starts. 400 px apart with two 300 px ropes puts the candy at the bottom of
 									//        a V (each rope ~42 degrees from vertical) with the second rope a little slack at the start.
-#define MAX_FALL_SPEED	1200.0f			// the free candy never falls faster than this, pixels / second
-#define PIG_FRAMES		2				// frames stacked top to bottom in Pig.png
 
 typedef struct
 {
@@ -61,64 +60,11 @@ typedef struct
 	float r;
 } Circle;
 
-// The candy has its own fall speed because it is not held by the rope once cut.
-typedef struct
-{
-	float x;
-	float y;
-	float r;
-	float vy;		// fall speed, pixels / second, +y is down
-} FallingCandy;
-
-typedef enum
-{
-	PIG_NORMAL,		// frame 0, top half of Pig.png
-	PIG_HAPPY		// frame 1, bottom half of Pig.png
-} PigState;
-
 static Circle anchor;
-static FallingCandy candy;		// follows the rope end while attached, moves by its own gravity once cut
-static CP_Vector candy_start;	// where the candy is placed on init
-static int candy_reached_pig;	// 1 once the candy has touched the pig
-static int candy_lost;			// 1 once the candy has left the bottom or sides of the screen
 static Circle pig;
-static PigState pig_state;		// which frame of Pig.png is drawn
-static CP_Image candy_img;
-static CP_Image pig_img;
 static VerletRope rope;
 static RopeCutter cutter;
 static RopeRig rig;
-
-// Resets the candy to its start position, clears the candy_reached_pig flag, and sets the candy's fall speed to 0.
-static void Candy_Reset(void)
-{
-	candy.x = candy_start.x;
-	candy.y = candy_start.y;
-	candy.vy = 0.0f;
-	candy_reached_pig = 0;
-	candy_lost = 0;
-	pig_state = PIG_NORMAL;
-}
-
-// The candy has fully left the bottom or either side of the screen.
-static int Candy_IsOffScreen(void)
-{
-	float screen_w = (float)CP_System_GetWindowWidth();
-	float screen_h = (float)CP_System_GetWindowHeight();
-
-	return (candy.y - candy.r > screen_h) ||
-		(candy.x + candy.r < 0.0f) ||
-		(candy.x - candy.r > screen_w);
-}
-
-// Gravity: speed builds up each frame until it hits the limit, then the candy moves by that speed.
-static void Candy_Update(float dt)
-{
-	candy.vy += GRAVITY_Y * dt;
-	if (candy.vy > MAX_FALL_SPEED)
-		candy.vy = MAX_FALL_SPEED;
-	candy.y += candy.vy * dt;
-}
 
 void RopeGame_Init(void)
 {
@@ -201,7 +147,7 @@ void RopeGame_Update(void)
 			CP_Engine_SetNextGameState(GameOver_Init, GameOver_Update, GameOver_Exit);
 		}
 		// candy-pig collision: once set, the candy is gone
-		if (IsCircleOverlapping(candy.x, candy.y, candy.r, pig.x, pig.y, pig.r))
+		if (IsCircleOverlapping(candy.x, candy.y, candy.r, pig.x, pig.y, pig.r)) //passing middle point and radius of both candy and pig to check if they are overlapping
 		{
 			candy_reached_pig = 1;
 			pig_state = PIG_HAPPY;
