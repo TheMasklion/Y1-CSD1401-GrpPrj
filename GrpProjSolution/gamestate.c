@@ -1,3 +1,12 @@
+//---------------------------------------------------------
+// file:	LevelSelect.c
+// author:	Jayden Tan
+// email:	jayden.tan@digipen.edu
+//
+// brief:	GameOver and GameWin screen code. The game state is set to GameOver or GameWin in ropegame.c when the candy is lost or reaches the pig.
+//			Utilizing utils.c functions onclick to interact with the shapes.
+//---------------------------------------------------------
+
 #include <cprocessing.h>
 #include "utils.h"
 #include "ropegame.h"
