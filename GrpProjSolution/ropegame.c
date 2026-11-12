@@ -25,7 +25,7 @@
 #include "mainmenu.h"	// Main_Menu_* so Q can return to the menu (called)
 #include "LevelSelect.h"
 #include "collision.h"	// IsCircleOverlapping, for the candy-pig test
-#include "gameover.h"
+#include "gamestate.h"
 #include "PigCandy.h"
 #include "Powerups.h"	// Bubble, Magnet power-up
 
@@ -66,6 +66,16 @@ static Circle pig;
 static VerletRope rope;
 static RopeCutter cutter;
 static RopeRig rig;
+
+//flag for pause and win state
+typedef enum
+{
+	GamePlay,
+	GameOver,	
+	GameWin
+} GameState;
+
+GameState game_state;
 
 void RopeGame_Init(void)
 {
@@ -115,12 +125,16 @@ void RopeGame_Init(void)
 		pig_img = CP_Image_Load("Assets/Pig.png");
 	CP_Settings_ImageFilterMode(CP_IMAGE_FILTER_NEAREST);	// keeps pixel art crisp when scaled up
 	Bubble_Init(screen_w / 2.0f, screen_h / 2.0f);
+	
+	game_state = GamePlay; // set the game state to gameplay when the game starts
 }
 
 void RopeGame_Update(void)
 {
 	CP_Vector rope_end;
+
 	float dt = CP_System_GetDt();
+	
 
 	// 1. physics: every hinge is pulled down by its weight, the segments hold the rope together
 	VerletRope_Update(&rope, dt);
@@ -151,13 +165,14 @@ void RopeGame_Update(void)
 		//Candy out of screen, display game over //*Jayden part links from here game over screen 
 		if (Candy_IsOffScreen())
 		{
-			CP_Engine_SetNextGameState(GameOver_Init, GameOver_Update, GameOver_Exit);
+			game_state = GameOver; // set the game state to game over
 		}
 		// candy-pig collision: once set, the candy is gone
 		if (IsCircleOverlapping(candy.x, candy.y, candy.r, pig.x, pig.y, pig.r)) //passing middle point and radius of both candy and pig to check if they are overlapping
 		{
 			candy_reached_pig = 1;
 			pig_state = PIG_HAPPY;
+			game_state = GameWin; // set the game state to game win
 		}
 	}
 
@@ -192,6 +207,14 @@ void RopeGame_Update(void)
 			0.0f, v0, frame_w, v0 + frame_h, 255);
 	}
 
+	if (game_state == GameOver)
+	{
+		GameOver_Screen();
+	}
+	else if (game_state == GameWin)
+	{
+		GameWin_Screen();
+	}
 
 	// R: new rope (CUT: handy once the candy has been dropped)
 	if (CP_Input_KeyTriggered(KEY_R))
@@ -201,6 +224,7 @@ void RopeGame_Update(void)
 	if (CP_Input_KeyTriggered(KEY_Q))
 		CP_Engine_SetNextGameState(Level_Select_Init, Level_Select_Update, Level_Select_Exit);
 }
+	
 
 void RopeGame_Exit(void)
 {

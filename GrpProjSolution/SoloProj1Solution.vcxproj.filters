@@ -42,7 +42,7 @@
     <ClInclude Include="utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="gameover.h">
+    <ClInclude Include="gamestate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PigCandy.h">
@@ -80,7 +80,7 @@
     <ClCompile Include="LevelSelect.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="gameover.c">
+    <ClCompile Include="gamestate.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PigCandy.c">
