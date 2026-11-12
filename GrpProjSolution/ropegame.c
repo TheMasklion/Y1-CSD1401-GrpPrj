@@ -27,6 +27,7 @@
 #include "collision.h"	// IsCircleOverlapping, for the candy-pig test
 #include "gameover.h"
 #include "PigCandy.h"
+#include "Powerups.h"	// Bubble, Magnet power-up
 
 // colours, same values as game.c so the state looks like the rest of the game
 #define LIGHT_GREY_BG	CP_Color_Create(200, 200, 200, 255)
@@ -113,6 +114,7 @@ void RopeGame_Init(void)
 	if (pig_img == NULL)
 		pig_img = CP_Image_Load("Assets/Pig.png");
 	CP_Settings_ImageFilterMode(CP_IMAGE_FILTER_NEAREST);	// keeps pixel art crisp when scaled up
+	Bubble_Init(screen_w / 2.0f, screen_h / 2.0f);
 }
 
 void RopeGame_Update(void)
@@ -137,12 +139,17 @@ void RopeGame_Update(void)
 			candy.y = rope_end.y;
 			candy.vy = 0.0f;
 		}
+		else if (Bubble_IsCarrying())
+		{
+			Bubble_Update(dt);		// the bubble moves the candy up instead of gravity
+		}
 		else
 		{
 			Candy_Update(dt);
+			Bubble_TryCapture();	// a free candy that touches a waiting bubble gets picked up
 		}
 		//Candy out of screen, display game over //*Jayden part links from here game over screen 
-		if (Candy_IsOffScreen()) 
+		if (Candy_IsOffScreen())
 		{
 			CP_Engine_SetNextGameState(GameOver_Init, GameOver_Update, GameOver_Exit);
 		}
@@ -178,6 +185,8 @@ void RopeGame_Update(void)
 		float frame_w = (float)CP_Image_GetWidth(pig_img);
 		float frame_h = (float)CP_Image_GetHeight(pig_img) / PIG_FRAMES;
 		float v0 = (float)pig_state * frame_h;		// top edge of the chosen frame
+
+		Bubble_Draw();
 
 		CP_Image_DrawSubImage(pig_img, pig.x, pig.y, pig.r * 2.0f, pig.r * 2.0f,
 			0.0f, v0, frame_w, v0 + frame_h, 255);
