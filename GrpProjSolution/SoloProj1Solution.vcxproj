@@ -15,6 +15,7 @@
     <ClInclude Include="gamestate.h" />
     <ClInclude Include="LevelSelect.h" />
     <ClInclude Include="mainmenu.h" />
+    <ClInclude Include="Pause.h" />
     <ClInclude Include="PigCandy.h" />
     <ClInclude Include="Powerups.h" />
     <ClInclude Include="rope.h" />
@@ -28,6 +29,7 @@
     <ClCompile Include="LevelSelect.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="mainmenu.c" />
+    <ClCompile Include="Pause.c" />
     <ClCompile Include="Powerups.c" />
     <ClCompile Include="rope.c" />
     <ClCompile Include="ropegame.c" />

@@ -28,6 +28,7 @@
 #include "gamestate.h"
 #include "PigCandy.h"
 #include "Powerups.h"	// Bubble, Magnet power-up
+#include "Pause.h"      // Pause
 
 // colours, same values as game.c so the state looks like the rest of the game
 #define LIGHT_GREY_BG	CP_Color_Create(200, 200, 200, 255)
@@ -79,6 +80,9 @@ GameState game_state;
 
 void RopeGame_Init(void)
 {
+
+	Pause_Init();
+
 	float screen_w = (float)CP_System_GetWindowWidth();
 	float screen_h = (float)CP_System_GetWindowHeight();
 	CP_Vector anchor_pos;
@@ -131,6 +135,13 @@ void RopeGame_Init(void)
 
 void RopeGame_Update(void)
 {
+
+	Pause_Update();
+
+	if (Pause_IsPaused()) {
+		return;
+	}
+
 	CP_Vector rope_end;
 
 	float dt = CP_System_GetDt();
