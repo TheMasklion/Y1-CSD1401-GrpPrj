@@ -14,6 +14,7 @@
 #include "collision.h"
 #include "utils.h"
 
+// Bubble power-up: captures the free-falling candy, floats it up until the player clicks the bubble or it reaches the top of the screen, then lets the candy fall normally again.
 typedef enum
 {
 	BUBBLE_WAITING,
@@ -92,4 +93,95 @@ void Bubble_Draw(void)
 
 	CP_Settings_Fill(CP_Color_Create(80, 160, 255, 120));	// last number is alpha, so the candy shows through
 	CP_Graphics_DrawCircle(bubble.x, bubble.y, bubble.r * 2.0f);
+}
+
+//Magnet on click and hold, pulls candy towards it, when candy touches the magnet, release the candy fall.
+//Can be released early by letting go of the Magnet
+typedef enum
+{
+	MAGNET_WAITING,
+	MAGNET_CARRYING,
+	MAGNET_POPPED
+} MagnetState;
+
+typedef struct
+{
+	float x;
+	float y;
+	float r;
+	MagnetState state;
+} Magnet;
+
+static Magnet magnet;
+
+void Magnet_Init(float x, float y) 
+{
+	magnet.x = x;
+	magnet.y = y;
+	magnet.r = MAGNET_RADIUS;
+	magnet.state = MAGNET_WAITING;
+}
+
+// Gone: the candy falls from rest, so Candy_Update starts it again from vy = 0.
+static void Magnet_Pop(void)
+{
+	magnet.state = MAGNET_POPPED;
+	candy.vy = 0.0f;
+}
+
+void Magnet_TryCapture(void)
+{
+	if (magnet.state != MAGNET_WAITING)
+		return;
+
+	// If this is the first frame the left mouse button is pressed
+	if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT))
+	{
+
+		// If left mouse button is being held
+		if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT) && IsCircleClicked(magnet.x, magnet.y, magnet.r * 2.0f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+		{
+			magnet.state = MAGNET_CARRYING;
+		}
+		// If left mouse button was just released
+		else if (CP_Input_MouseReleased(MOUSE_BUTTON_LEFT))
+		{
+			magnet.state = MAGNET_POPPED;
+			candy.vy = 0.0f;
+		}
+	}
+}
+
+//Again this just checks if the magnet is carrying the candy, if it is, it returns 1, else 0
+int Magnet_IsCarrying(void)
+{
+	return magnet.state == MAGNET_CARRYING;
+}
+
+void Magnet_Update()
+{
+	if (magnet.state != MAGNET_CARRYING || magnet.state != MAGNET_WAITING)
+		return;
+	if (magnet.x < 0)
+	{
+		candy.x -= 1;
+		candy.y = magnet.y;
+	}
+	else if (magnet.x > 0)
+	{
+		candy.x += 1;
+		candy.y = magnet.y;
+	}
+
+	if (magnet.y - magnet.r <= 0.0f)		// top of the magnet touched the top of the screen
+		Magnet_Pop();
+}
+
+void Magnet_Draw(void)
+{
+	if (magnet.state == MAGNET_POPPED)
+		return;
+
+	CP_Settings_Fill(CP_Color_Create(80, 160, 255, 120));	// last number is alpha, so the candy shows through
+	CP_Graphics_DrawCircle(magnet.x, magnet.y, magnet.r * 2.0f);
 }
