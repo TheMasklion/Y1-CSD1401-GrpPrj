@@ -56,6 +56,11 @@ void Pause_Update(void) {
 		is_paused = !is_paused;
 	}
 
+	if (!is_paused)
+	{
+		return;
+	}
+
 	
 
 	if (IsAreaClicked(BTN_X, BTN_Y_RESUME, BTN_WIDTH, BTN_HEIGHT,CP_Input_GetMouseX(), CP_Input_GetMouseY()))
