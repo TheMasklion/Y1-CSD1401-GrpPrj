@@ -71,14 +71,14 @@ void Bubble_Update(float dt)
 	if (bubble.state != BUBBLE_CARRYING)
 		return;
 
-	// click on the bubble to pop it (IsCircleClicked takes a diameter, like CP_Graphics_DrawCircle)
+	// click on the bubble to pop it
 	if (IsCircleClicked(bubble.x, bubble.y, bubble.r * 2.0f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 	{
 		Bubble_Pop();
 		return;
 	}
 
-	bubble.y -= BUBBLE_RISE_SPEED * dt;		// -y is up
+	bubble.y -= BUBBLE_RISE_SPEED * dt;	
 	candy.x = bubble.x;
 	candy.y = bubble.y;
 
@@ -91,7 +91,7 @@ void Bubble_Draw(void)
 	if (bubble.state == BUBBLE_POPPED)
 		return;
 
-	CP_Settings_Fill(CP_Color_Create(80, 160, 255, 120));	// last number is alpha, so the candy shows through
+	CP_Settings_Fill(CP_Color_Create(80, 160, 255, 120));	// last number is alpha, so the candy shows 
 	CP_Graphics_DrawCircle(bubble.x, bubble.y, bubble.r * 2.0f);
 }
 
