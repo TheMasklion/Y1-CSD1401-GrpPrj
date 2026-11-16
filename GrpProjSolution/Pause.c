@@ -56,50 +56,48 @@ void Pause_Update(void) {
 		is_paused = !is_paused;
 	}
 
-	if (!is_paused)
-	{
-		return;
+	// If the game is not paused, return early
+	if (is_paused) {
+
+
+		if (IsAreaClicked(BTN_X, BTN_Y_RESUME, BTN_WIDTH, BTN_HEIGHT, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+		{
+			is_paused = 0;
+			return;
+		}
+
+		if (IsAreaClicked(BTN_X, BTN_Y_RESTART, BTN_WIDTH, BTN_HEIGHT, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+		{
+			is_paused = 0;
+			RopeGame_Init();
+			return;
+		}
+
+		// Exit button
+		if (IsAreaClicked(BTN_X, BTN_Y_EXIT, BTN_WIDTH, BTN_HEIGHT, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+		{
+			CP_Engine_SetNextGameState(Level_Select_Init, Level_Select_Update, Level_Select_Exit);
+			return;
+		}
+
+
+
+		// Draw buttons
+		CP_Settings_RectMode(CP_POSITION_CENTER);
+		CP_Settings_Fill(REDDISH_PINK_BG);
+
+		CP_Graphics_DrawRect(BTN_X, BTN_Y_RESUME, BTN_WIDTH, BTN_HEIGHT);
+		CP_Graphics_DrawRect(BTN_X, BTN_Y_RESTART, BTN_WIDTH, BTN_HEIGHT);
+		CP_Graphics_DrawRect(BTN_X, BTN_Y_EXIT, BTN_WIDTH, BTN_HEIGHT);
+
+		// Draw text
+		CP_Font_Set(myFont);
+		CP_Settings_TextSize(FONT_SIZE);
+		CP_Settings_Fill(BLACK_BG);
+		CP_Font_DrawText("Resume", BTN_X, BTN_Y_RESUME);
+		CP_Font_DrawText("Restart", BTN_X, BTN_Y_RESTART);
+		CP_Font_DrawText("Exit", BTN_X, BTN_Y_EXIT);
 	}
-
-	
-
-	if (IsAreaClicked(BTN_X, BTN_Y_RESUME, BTN_WIDTH, BTN_HEIGHT,CP_Input_GetMouseX(), CP_Input_GetMouseY()))
-	{
-		is_paused = 0;
-		return;
-	}
-
-	if (IsAreaClicked(BTN_X, BTN_Y_RESTART, BTN_WIDTH, BTN_HEIGHT,CP_Input_GetMouseX(), CP_Input_GetMouseY()))
-	{
-		is_paused = 0;
-		RopeGame_Init();
-		return;
-	}
-
-	// Exit button
-	if (IsAreaClicked(BTN_X, BTN_Y_EXIT, BTN_WIDTH, BTN_HEIGHT,CP_Input_GetMouseX(), CP_Input_GetMouseY()))
-	{
-		CP_Engine_SetNextGameState(Level_Select_Init,Level_Select_Update,Level_Select_Exit);
-		return;
-	}
-
-	
-
-	// Draw buttons
-	CP_Settings_RectMode(CP_POSITION_CENTER);
-	CP_Settings_Fill(REDDISH_PINK_BG);
-
-	CP_Graphics_DrawRect(BTN_X, BTN_Y_RESUME, BTN_WIDTH, BTN_HEIGHT);
-	CP_Graphics_DrawRect(BTN_X, BTN_Y_RESTART, BTN_WIDTH, BTN_HEIGHT);
-	CP_Graphics_DrawRect(BTN_X, BTN_Y_EXIT, BTN_WIDTH, BTN_HEIGHT);
-
-	// Draw text
-	CP_Font_Set(myFont);
-	CP_Settings_TextSize(FONT_SIZE);
-	CP_Settings_Fill(BLACK_BG);
-	CP_Font_DrawText("Resume", BTN_X, BTN_Y_RESUME);
-	CP_Font_DrawText("Restart", BTN_X, BTN_Y_RESTART);
-	CP_Font_DrawText("Exit", BTN_X, BTN_Y_EXIT);
 
 }
 

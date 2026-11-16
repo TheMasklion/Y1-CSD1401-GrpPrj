@@ -136,11 +136,17 @@ void RopeGame_Init(void)
 void RopeGame_Update(void)
 {
 
-	Pause_Update();
+		if (game_state == GamePlay)
+		{
+			Pause_Update();
 
-	if (Pause_IsPaused()) {
-		return;
-	}
+			if (Pause_IsPaused())
+			{
+				return;
+			}
+		}
+
+
 
 	CP_Vector rope_end;
 
