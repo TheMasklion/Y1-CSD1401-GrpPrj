@@ -29,6 +29,7 @@
 #include "PigCandy.h"
 #include "Powerups.h"	// Bubble, Magnet power-up
 #include "Pause.h"      // Pause
+#include "Stars.h" 		// Stars
 
 // colours, same values as game.c so the state looks like the rest of the game
 #define LIGHT_GREY_BG	CP_Color_Create(200, 200, 200, 255)
@@ -132,6 +133,8 @@ void RopeGame_Init(void)
 	Magnet_Init(screen_w / 5.0f, screen_h / 1.6f);
 
 	game_state = GamePlay; // set the game state to gameplay when the game starts
+
+	Stars_Init(); // Initialize the star image
 }
 
 void RopeGame_Update(void)
@@ -146,7 +149,16 @@ void RopeGame_Update(void)
 			return;
 		}
 	}
-
+	if (game_state == GameOver)
+	{
+		GameOver_Screen();
+		return;
+	}
+	else if (game_state == GameWin)
+	{
+		GameWin_Screen();
+		return;
+	}
 
 
 	CP_Vector rope_end;
@@ -203,6 +215,9 @@ void RopeGame_Update(void)
 		}
 	}
 
+	
+
+
 	// 3. draw: rope first so the anchor and candy sit on top of it
 	CP_Graphics_ClearBackground(LIGHT_GREY_BG);
 	VerletRope_Draw(&rope, BROWN_BG, ROPE_THICKNESS);
@@ -235,14 +250,12 @@ void RopeGame_Update(void)
 			0.0f, v0, frame_w, v0 + frame_h, 255);
 	}
 
-	if (game_state == GameOver)
-	{
-		GameOver_Screen();
-	}
-	else if (game_state == GameWin)
-	{
-		GameWin_Screen();
-	}
+	
+	Stars_Draw(1,900.0f, 380.0f);
+	Stars_Draw(2,800.0f, 500.0f);
+	Stars_Draw(3,800.0f, 100.0f);
+	
+	Star_Counter(); // Counts the stars collected and displays the count on the screen
 
 	// R: new rope (CUT: handy once the candy has been dropped)
 	if (CP_Input_KeyTriggered(KEY_R))
@@ -260,4 +273,6 @@ void RopeGame_Exit(void)
 	candy_img = NULL;
 	CP_Image_Free(pig_img);
 	pig_img = NULL;
+
+	Stars_Exit(); // Free the star image
 }

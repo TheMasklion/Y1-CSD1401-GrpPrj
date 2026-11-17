@@ -54,6 +54,9 @@
     <ClInclude Include="Pause.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Stars.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
@@ -95,6 +98,9 @@
     <ClCompile Include="Pause.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Stars.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Candy.png">
@@ -104,6 +110,9 @@
       <Filter>Assets</Filter>
     </Image>
     <Image Include="Assets\Magnet.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Stars.png">
       <Filter>Assets</Filter>
     </Image>
   </ItemGroup>
