@@ -38,6 +38,7 @@ extern int candy_reached_pig;
 extern PigState pig_state;
 extern CP_Image candy_img;
 extern CP_Image pig_img;
+extern int candy_lost;
 
 // Resets the candy to its start position, clears the candy_reached_pig flag, and sets the candy's fall speed to 0.
 void Candy_Reset(void);

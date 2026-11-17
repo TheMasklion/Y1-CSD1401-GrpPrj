@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Candy.png" />
+    <Image Include="Assets\Magnet.png" />
     <Image Include="Assets\Pig.png" />
   </ItemGroup>
   <ItemGroup>

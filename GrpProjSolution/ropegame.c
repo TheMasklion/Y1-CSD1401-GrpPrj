@@ -46,7 +46,7 @@
 #define ROPE_THICKNESS		4.0f
 #define ROPE_START_ANGLE	45.0f	// degrees away from hanging straight down that the candy starts at
 #define HINGE_DOT_DIAMETER	8.0f	// size of the hinge dots drawn while H is held
-#define CANDY_RADIUS		25.0f
+#define CANDY_RADIUS		19.0f
 #define CANDY_MASS			8.0f	// much heavier than a rope hinge (1.0) so the rope follows the candy, not the other way round
 #define PIG_RADIUS			50.0f
 #define GRAVITY_X			0.0f	// gravity vector, pixels / second^2, +y is down.
@@ -72,7 +72,7 @@ static RopeRig rig;
 typedef enum
 {
 	GamePlay,
-	GameOver,	
+	GameOver,
 	GameWin
 } GameState;
 
@@ -128,30 +128,31 @@ void RopeGame_Init(void)
 	if (pig_img == NULL)
 		pig_img = CP_Image_Load("Assets/Pig.png");
 	CP_Settings_ImageFilterMode(CP_IMAGE_FILTER_NEAREST);	// keeps pixel art crisp when scaled up
-	Bubble_Init(screen_w / 2.0f, screen_h / 2.0f);
-	
+	Bubble_Init(screen_w / 2.0f, screen_h / 1.6f);
+	Magnet_Init(screen_w / 5.0f, screen_h / 1.6f);
+
 	game_state = GamePlay; // set the game state to gameplay when the game starts
 }
 
 void RopeGame_Update(void)
 {
 
-		if (game_state == GamePlay)
-		{
-			Pause_Update();
+	if (game_state == GamePlay)
+	{
+		Pause_Update();
 
-			if (Pause_IsPaused())
-			{
-				return;
-			}
+		if (Pause_IsPaused())
+		{
+			return;
 		}
+	}
 
 
 
 	CP_Vector rope_end;
 
 	float dt = CP_System_GetDt();
-	
+
 
 	// 1. physics: every hinge is pulled down by its weight, the segments hold the rope together
 	VerletRope_Update(&rope, dt);
@@ -163,6 +164,7 @@ void RopeGame_Update(void)
 	// 2. the candy hangs from the last hinge
 	if (!candy_reached_pig)
 	{
+		Magnet_Poll();				// every frame: a click on the magnet switches it on, letting go of the mouse switches it off
 		if (RopeRig_GetCandyState(&rig) == ROPECUT_CANDY_ATTACHED)
 		{
 			rope_end = RopeRig_GetCandy(&rig);
@@ -176,8 +178,16 @@ void RopeGame_Update(void)
 		}
 		else
 		{
-			Candy_Update(dt);
-			Bubble_TryCapture();	// a free candy that touches a waiting bubble gets picked up
+			if (Magnet_IsCarrying())
+			{
+				Magnet_Update(dt);		// the magnet pulls the candy sideways instead of gravity
+			}
+			else
+			{
+				Candy_Update(dt);
+				Magnet_TryCapture();	// a magnet that is on pulls the free candy once it falls level with it
+			}
+			Bubble_TryCapture();	// bubble has priority: checked after the candy moved (falling or pulled), and it cancels the magnet
 		}
 		//Candy out of screen, display game over //*Jayden part links from here game over screen 
 		if (Candy_IsOffScreen())
@@ -219,6 +229,7 @@ void RopeGame_Update(void)
 		float v0 = (float)pig_state * frame_h;		// top edge of the chosen frame
 
 		Bubble_Draw();
+		Magnet_Draw();
 
 		CP_Image_DrawSubImage(pig_img, pig.x, pig.y, pig.r * 2.0f, pig.r * 2.0f,
 			0.0f, v0, frame_w, v0 + frame_h, 255);
@@ -241,7 +252,7 @@ void RopeGame_Update(void)
 	if (CP_Input_KeyTriggered(KEY_Q))
 		CP_Engine_SetNextGameState(Level_Select_Init, Level_Select_Update, Level_Select_Exit);
 }
-	
+
 
 void RopeGame_Exit(void)
 {

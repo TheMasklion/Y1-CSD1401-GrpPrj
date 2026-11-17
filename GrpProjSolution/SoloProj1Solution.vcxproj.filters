@@ -103,6 +103,9 @@
     <Image Include="Assets\Pig.png">
       <Filter>Assets</Filter>
     </Image>
+    <Image Include="Assets\Magnet.png">
+      <Filter>Assets</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Font Include="Assets\Exo2-Regular.ttf">
