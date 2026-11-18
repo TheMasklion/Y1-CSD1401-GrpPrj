@@ -112,7 +112,10 @@
     <Image Include="Assets\Magnet.png">
       <Filter>Assets</Filter>
     </Image>
-    <Image Include="Assets\Stars.png">
+    <Image Include="Assets\background.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\levelbackground.png">
       <Filter>Assets</Filter>
     </Image>
   </ItemGroup>

@@ -42,10 +42,11 @@
     <ClCompile Include="utils.c" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Assets\background.png" />
     <Image Include="Assets\Candy.png" />
+    <Image Include="Assets\levelbackground.png" />
     <Image Include="Assets\Magnet.png" />
     <Image Include="Assets\Pig.png" />
-    <Image Include="Assets\Stars.png" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="Assets\Exo2-Regular.ttf" />
