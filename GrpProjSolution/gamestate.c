@@ -1,5 +1,5 @@
 //---------------------------------------------------------
-// file:	LevelSelect.c
+// file:	Gamestate.c
 // author:	Jayden Tan
 // email:	jayden.tan@digipen.edu
 //

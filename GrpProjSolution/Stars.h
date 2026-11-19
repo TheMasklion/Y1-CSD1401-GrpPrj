@@ -16,7 +16,7 @@ extern Star YellowStar;
 extern Star EmptyStar;
 #endif // !STARS_H
 
-
+void LoadStarSprite(void);
 
 void Stars_Init(void);
 void Stars_Draw(int star_id, float x_star, float y_star);

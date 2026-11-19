@@ -22,6 +22,7 @@
     <ClInclude Include="ropecut.h" />
     <ClInclude Include="ropegame.h" />
     <ClInclude Include="roperig.h" />
+    <ClInclude Include="SaveData.h" />
     <ClInclude Include="Stars.h" />
     <ClInclude Include="utils.h" />
   </ItemGroup>
@@ -38,6 +39,7 @@
     <ClCompile Include="ropecut.c" />
     <ClCompile Include="roperig.c" />
     <ClCompile Include="PigCandy.c" />
+    <ClCompile Include="SavaData.c" />
     <ClCompile Include="Stars.c" />
     <ClCompile Include="utils.c" />
   </ItemGroup>

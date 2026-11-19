@@ -31,6 +31,7 @@
 #include "Pause.h"      // Pause
 #include "Stars.h" 		// Stars
 #include "utils.h"		// Background image 
+#include "SaveData.h"
 
 // colours, same values as game.c so the state looks like the rest of the game
 #define LIGHT_GREY_BG	CP_Color_Create(200, 200, 200, 255)
@@ -80,6 +81,9 @@ typedef enum
 } GameState;
 
 GameState game_state;
+
+extern int current_level;
+extern int star_count;
 
 void RopeGame_Init(void)
 {
@@ -161,6 +165,8 @@ void RopeGame_Update(void)
 	else if (game_state == GameWin)
 	{
 		GameWin_Screen();
+		//update save file to new star
+		UpdateSave(current_level,star_count);
 		return;
 	}
 

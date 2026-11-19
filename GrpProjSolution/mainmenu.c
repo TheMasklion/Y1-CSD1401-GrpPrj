@@ -14,6 +14,7 @@
 #include "mainmenu.h"
 #include "cprocessing.h"
 #include <stdio.h>
+#include "SaveData.h" // Load/Create save data
 
 
 
@@ -39,6 +40,8 @@ void Main_Menu_Init(void)
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
 	menu_bg = CP_Image_Load("Assets/background.png");
 	CP_Settings_ImageFilterMode(CP_IMAGE_FILTER_LINEAR);	// smooth, because the game sets NEAREST for the pixel art
+
+	InitialiseSaveData();
 }
 
 void Main_Menu_Update(void)

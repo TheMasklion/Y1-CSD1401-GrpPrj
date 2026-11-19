@@ -16,6 +16,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include "SaveData.h" // Retrieve and draw stars
 
 //I keep almost the same styling for consistency
 #define GREY_BG CP_Color_Create(100, 100, 100, 255)
@@ -49,7 +50,8 @@ e.g 15:
 #define X_GAP (float)(BTN_X_SPACE - (BTN_WIDTH * MAX_COLUMNS)) / (MAX_COLUMNS + 1)
 #define Y_GAP (float)(BTN_Y_SPACE - (BTN_HEIGHT * MAX_ROWS)) / (MAX_ROWS + 1)
 
-#define levels 1 //levels to be created, this value can change dynamically when we have level creator
+int current_level = 0;
+int total_levels = 1; //levels to be created, this value can change dynamically when we have level creator
 
 CP_Font myFont;
 static CP_Image level_bg;
@@ -60,11 +62,11 @@ void Level_Select_Init(void)
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
 
 	//First we map a grid; e.g 3 buttons use a 1x4 grid, 19 buttons use a 5x4 grid etc.
-	columns = levels; //calculate columns needed 
+	columns = total_levels; //calculate columns needed 
 	if (columns > MAX_COLUMNS)
 		columns = MAX_COLUMNS; //limit columns if exceed, we will then calculate the rows to fit 
 
-	rows = (int)ceil((float)levels / columns); //calculate rows needed by dividing the levels by columns and rounding up (to fill all numbers) so this time we get 5
+	rows = (int)ceil((float)total_levels / columns); //calculate rows needed by dividing the levels by columns and rounding up (to fill all numbers) so this time we get 5
 	if (rows > MAX_ROWS)
 		rows = MAX_ROWS; //limit rows
 
@@ -87,7 +89,7 @@ void Level_Select_Update(void)
 	
 	
 	//Level Button
-	for (int i = 0; i < levels; i++)
+	for (int i = 0; i < total_levels; i++)
 	{
 		/*Level buttons----------------------------------------------------------------------------------------------------------------------*/
 		CP_Settings_Fill(REDDISH_PINK_BG); //Button colour
@@ -106,6 +108,11 @@ void Level_Select_Update(void)
 		char levelText[20];
 		sprintf_s(levelText, sizeof(levelText), "Level %d", i + 1);
 		CP_Font_DrawText(levelText, BTN_X, BTN_Y); //Level Button Text
+
+
+		float star_y = BTN_Y + BTN_HEIGHT;
+		//draw stars from save data here
+		DrawSaveDataStars(BTN_X, star_y, i+1);
 	}
 
 	//Checking which level is selected, then load according to the i value returned
@@ -113,15 +120,8 @@ void Level_Select_Update(void)
 	if (CP_Input_MouseClicked()) 
 	{
 		//run the test for each button
-		for (int i = 0; i < levels; i++) 
+		for (int i = 0; i < total_levels; i++) 
 		{
-			//we need to get the x and y coordinates of each button
-			//Determine which row and column we are currently in for the button; e.g button 1 row 0 column 0, button 2 row 1 column 2...
-			col = i % columns; //gives remainder of i or 0 when divided by columns(4)
-			row = i / columns; //gives quotient if divisible by columns(4), means we are on to Wanother row if so
-			BTN_X = X_GAP + (BTN_WIDTH / 2.0f) + ((BTN_WIDTH + X_GAP) * col);//x-coordinate is the <space><x><button><space><x2><button><space>
-			BTN_Y = BTN_Y_MARGIN + (BTN_HEIGHT / 2.0f) + ((BTN_HEIGHT + Y_GAP) * row);//same for y but add in the margin
-
 			//then run the test, additionally parse i to compare each button number
 			switch (LevelClicked(BTN_X, BTN_Y, BTN_WIDTH, BTN_HEIGHT, CP_Input_GetMouseX(), CP_Input_GetMouseY(),i)) 
 			{
@@ -131,6 +131,7 @@ void Level_Select_Update(void)
 				break;
 				case 1:
 					CP_Engine_SetNextGameState(RopeGame_Init, RopeGame_Update, RopeGame_Exit);	// ROPE: Play opens the rope state (was Game_Init, Game_Update, Game_Exit)
+					current_level = 1;
 					break;
 	
 			}

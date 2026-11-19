@@ -31,24 +31,13 @@ Star EmptyStar;
 
 int star_count;
 
-void Stars_Init(void)
+//load in the star sprites for each 
+void LoadStarSprite(void) 
 {
-	star_count = 0; // Initialize the star count to 0
-
 	if (star_img == NULL)
 	{
 		CP_Settings_ImageFilterMode(CP_IMAGE_FILTER_NEAREST);
 		star_img = CP_Image_Load("./Assets/Stars.png");
-	}
-
-	//set YellowStar params with unique id set for each
-	for (int i = 0; i < 3; i++)
-	{
-		ID[i] = (id)
-		{
-			.id = i + 1,			// Unique identifier for each star (1, 2, 3)
-			.collected = 0			// Initialize the collected flag to 0 (not collected)
-		};
 	}
 
 	YellowStar = (Star)
@@ -66,6 +55,25 @@ void Stars_Init(void)
 		.sprite_right = (float)CP_Image_GetWidth(star_img),
 		.sprite_bottom = (float)CP_Image_GetHeight(star_img)
 	};
+}
+
+void Stars_Init(void)
+{
+	star_count = 0; // Initialize the star count to 0
+	//Load the sprite properties and image 
+	LoadStarSprite();
+
+	//Additional settings YellowStar params with unique id set for each for gaming
+	for (int i = 0; i < 3; i++)
+	{
+		ID[i] = (id)
+		{
+			.id = i + 1,			// Unique identifier for each star (1, 2, 3)
+			.collected = 0			// Initialize the collected flag to 0 (not collected)
+		};
+	}
+
+
 	
 }
 
