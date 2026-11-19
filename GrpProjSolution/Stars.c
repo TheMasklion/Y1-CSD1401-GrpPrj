@@ -27,6 +27,7 @@ id ID[3]; // Initiate 3 IDs for the 3 stars, each with a unique ID
 
 Star YellowStar;
 Star EmptyStar;
+#define star_radius_in_game 50.0f // Define the radius for the star collision detection, which is half of the star image size (32x32 pixels)
 
 int star_count;
 
@@ -77,7 +78,7 @@ void Stars_Draw(int star_id, float x_star, float y_star)//modifiable x and y coo
 		CP_Image_DrawSubImage(star_img, x_star, y_star, 100.0f, 100.0f,
 			YellowStar.sprite_left, YellowStar.sprite_top, YellowStar.sprite_right, YellowStar.sprite_bottom, 255);
 
-		if (IsCircleOverlapping(x_star, y_star, 100.0f, candy.x, candy.y, candy.r))
+		if (IsCircleOverlapping(x_star, y_star, star_radius_in_game, candy.x, candy.y, candy.r))
 		{
 			ID[index].collected = 1; // Set the star_collected flag to 1 and stop drawing the star
 			star_count++;

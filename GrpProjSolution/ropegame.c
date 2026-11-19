@@ -255,9 +255,9 @@ void RopeGame_Update(void)
 	}
 
 	
-	Stars_Draw(1,900.0f, 380.0f);
-	Stars_Draw(2,800.0f, 500.0f);
-	Stars_Draw(3,800.0f, 100.0f);
+	Stars_Draw(1,900.0f, 550.0f);
+	Stars_Draw(2,800.0f, 700.0f);
+	Stars_Draw(3,800.0f, 50.0f);
 	
 	Star_Counter(); // Counts the stars collected and displays the count on the screen
 
