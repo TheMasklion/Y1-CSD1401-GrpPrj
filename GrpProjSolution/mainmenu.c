@@ -31,18 +31,20 @@
 #define BTN_Y_EXIT (float)(CP_System_GetWindowHeight() / 1.45f)
 
 CP_Font myFont;
-
+static CP_Image menu_bg;
 
 void Main_Menu_Init(void)
 {
 	myFont = CP_Font_Load(FONT_ASSET);
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
+	menu_bg = CP_Image_Load("Assets/background.png");
+	CP_Settings_ImageFilterMode(CP_IMAGE_FILTER_LINEAR);	// smooth, because the game sets NEAREST for the pixel art
 }
 
 void Main_Menu_Update(void)
 {
 	//Drawing the main menu
-	CP_Graphics_ClearBackground(GREY_BG);
+	DrawBackground(menu_bg);
 	CP_Settings_Fill(REDDISH_PINK_BG); //Play Button colour
 	CP_Graphics_DrawRect(BTN_X, BTN_Y_PLAY, BTN_WIDTH, BTN_HEIGHT); //Play Button
 	CP_Graphics_DrawRect(BTN_X, BTN_Y_EXIT, BTN_WIDTH, BTN_HEIGHT); //Exit Button
@@ -85,4 +87,5 @@ void Main_Menu_Update(void)
 void Main_Menu_Exit(void)
 {
 	CP_Font_Free(myFont);
+	CP_Image_Free(menu_bg);
 }

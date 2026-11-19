@@ -52,6 +52,7 @@ e.g 15:
 #define levels 1 //levels to be created, this value can change dynamically when we have level creator
 
 CP_Font myFont;
+static CP_Image level_bg;
 
 void Level_Select_Init(void)
 {
@@ -66,13 +67,15 @@ void Level_Select_Init(void)
 	rows = (int)ceil((float)levels / columns); //calculate rows needed by dividing the levels by columns and rounding up (to fill all numbers) so this time we get 5
 	if (rows > MAX_ROWS)
 		rows = MAX_ROWS; //limit rows
-	
+
+	if (level_bg == NULL)
+		level_bg = CP_Image_Load("Assets/levelbackground.png");
 }
 
 
 void Level_Select_Update(void) 
 {
-	CP_Graphics_ClearBackground(GREY_BG);
+	DrawBackground(level_bg);
 
 	//Header text
 	CP_Settings_TextSize(125.0f);
@@ -144,5 +147,7 @@ void Level_Select_Update(void)
 
 void Level_Select_Exit(void)
 {
+	CP_Image_Free(level_bg);
+	level_bg = NULL;
 	CP_Font_Free(myFont);
 }

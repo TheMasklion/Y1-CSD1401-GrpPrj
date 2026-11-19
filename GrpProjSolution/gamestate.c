@@ -37,6 +37,20 @@ CP_Font myFont;
 #define star_starting_x CP_System_GetWindowWidth() / 2.0f - star_offset_x // Starting x position for the first star
 
 extern int star_count; // Access the star_count variable from Stars.c
+static CP_Image end_bg;
+
+static void EndScreen_DrawPanel(void)
+{
+	float panel_w = CP_System_GetWindowWidth() * (2.0f / 3.0f);
+	float panel_h = CP_System_GetWindowHeight() * (2.0f / 3.0f);
+
+	if (end_bg == NULL)
+		end_bg = CP_Image_Load("Assets/background.png");
+
+	CP_Settings_ImageFilterMode(CP_IMAGE_FILTER_LINEAR);	// smooth stripes
+	DrawImageFill(end_bg, CP_System_GetWindowWidth() / 2.0f, center_screen_y, panel_w, panel_h);
+	CP_Settings_ImageFilterMode(CP_IMAGE_FILTER_NEAREST);	// back to what the game and the star sprites use
+}
 
 void GameOver_Screen(void)
 {
@@ -45,9 +59,8 @@ void GameOver_Screen(void)
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
 	CP_Settings_RectMode(CP_POSITION_CENTER);
 
-	//gray area screen
-	CP_Settings_Fill(GREY_BG);
-	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2.0f, center_screen_y, CP_System_GetWindowWidth() * (2.0f / 3.0f), CP_System_GetWindowHeight() * (2.0f / 3.0f));
+	//screen background panel
+	EndScreen_DrawPanel();
 
 	//Game Over text
 	CP_Font_Set(myFont);
@@ -110,9 +123,8 @@ void GameWin_Screen(void)
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
 	CP_Settings_RectMode(CP_POSITION_CENTER);
 
-	//gray area screen
-	CP_Settings_Fill(GREY_BG);
-	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2.0f, center_screen_y, CP_System_GetWindowWidth() * (2.0f / 3.0f), CP_System_GetWindowHeight() * (2.0f / 3.0f));
+	//screen background panel
+	EndScreen_DrawPanel();
 
 	//You Win! text
 	CP_Font_Set(myFont);

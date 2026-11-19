@@ -30,6 +30,7 @@
 #include "Powerups.h"	// Bubble, Magnet power-up
 #include "Pause.h"      // Pause
 #include "Stars.h" 		// Stars
+#include "utils.h"		// Background image 
 
 // colours, same values as game.c so the state looks like the rest of the game
 #define LIGHT_GREY_BG	CP_Color_Create(200, 200, 200, 255)
@@ -68,6 +69,7 @@ static Circle pig;
 static VerletRope rope;
 static RopeCutter cutter;
 static RopeRig rig;
+static CP_Image level_bg;
 
 //flag for pause and win state
 typedef enum
@@ -128,6 +130,8 @@ void RopeGame_Init(void)
 		candy_img = CP_Image_Load("Assets/Candy.png");
 	if (pig_img == NULL)
 		pig_img = CP_Image_Load("Assets/Pig.png");
+	if (level_bg == NULL)
+		level_bg = CP_Image_Load("Assets/levelbackground.png");
 	CP_Settings_ImageFilterMode(CP_IMAGE_FILTER_NEAREST);	// keeps pixel art crisp when scaled up
 	Bubble_Init(screen_w / 2.0f, screen_h / 1.6f);
 	Magnet_Init(screen_w / 5.0f, screen_h / 1.6f);
@@ -219,7 +223,7 @@ void RopeGame_Update(void)
 
 
 	// 3. draw: rope first so the anchor and candy sit on top of it
-	CP_Graphics_ClearBackground(LIGHT_GREY_BG);
+	DrawBackground(level_bg);
 	VerletRope_Draw(&rope, BROWN_BG, ROPE_THICKNESS);
 	RopeRig_Draw(&rig, BROWN_BG, ROPE_THICKNESS);		// ROPE2: the second rope and its cut pieces and fray, same colour
 	RopeCutter_Draw(&cutter, BROWN_BG, ROPE_THICKNESS);	// CUT: loose pieces in the same colour, then fray and blade streak
@@ -273,6 +277,8 @@ void RopeGame_Exit(void)
 	candy_img = NULL;
 	CP_Image_Free(pig_img);
 	pig_img = NULL;
+	CP_Image_Free(level_bg);
+	level_bg = NULL;
 
 	Stars_Exit(); // Free the star image
 }

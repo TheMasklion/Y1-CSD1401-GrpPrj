@@ -67,3 +67,55 @@ int LevelClicked(float area_center_x, float area_center_y, float area_width, flo
 	return 0;
 }
 
+
+// Draws img over the whole window without stretching: scaled to cover the window,
+// with the overflow cropped evenly from the sides or from the top and bottom.
+void DrawBackground(CP_Image img)
+{
+	float win_w = (float)CP_System_GetWindowWidth();
+	float win_h = (float)CP_System_GetWindowHeight();
+	float img_w = (float)CP_Image_GetWidth(img);
+	float img_h = (float)CP_Image_GetHeight(img);
+	float u0 = 0.0f;
+	float v0 = 0.0f;
+	float u1 = img_w;
+	float v1 = img_h;
+
+	if (img_w / img_h > win_w / win_h)		// image is wider than the window: crop the sides
+	{
+		float keep_w = img_h * win_w / win_h;
+		u0 = (img_w - keep_w) / 2.0f;
+		u1 = u0 + keep_w;
+	}
+	else									// image is taller than the window: crop top and bottom
+	{
+		float keep_h = img_w * win_h / win_w;
+		v0 = (img_h - keep_h) / 2.0f;
+		v1 = v0 + keep_h;
+	}
+	CP_Image_DrawSubImage(img, win_w / 2.0f, win_h / 2.0f, win_w, win_h, u0, v0, u1, v1, 255);
+}
+
+void DrawImageFill(CP_Image img, float cx, float cy, float w, float h)
+{
+	float img_w = (float)CP_Image_GetWidth(img);
+	float img_h = (float)CP_Image_GetHeight(img);
+	float u0 = 0.0f;
+	float v0 = 0.0f;
+	float u1 = img_w;
+	float v1 = img_h;
+
+	if (img_w / img_h > w / h)			// image is wider than the rectangle: crop the sides
+	{
+		float keep_w = img_h * w / h;
+		u0 = (img_w - keep_w) / 2.0f;
+		u1 = u0 + keep_w;
+	}
+	else								// image is taller than the rectangle: crop top and bottom
+	{
+		float keep_h = img_w * h / w;
+		v0 = (img_h - keep_h) / 2.0f;
+		v1 = v0 + keep_h;
+	}
+	CP_Image_DrawSubImage(img, cx, cy, w, h, u0, v0, u1, v1, 255);
+}
