@@ -23,7 +23,6 @@ CP_Font myFont;
 #define GREY_BG CP_Color_Create(100, 100, 100, 255)
 #define BLACK_BG CP_Color_Create(0, 0, 0, 255)
 #define REDDISH_PINK_BG CP_Color_Create(255, 125, 125, 255)
-#define WHITE_BG CP_Color_Create(255, 255, 255, 255)
 #define RED_BG CP_Color_Create(255, 0, 0, 255)
 #define GREEN_BG CP_Color_Create(0, 255, 0, 255)
 
@@ -37,7 +36,7 @@ CP_Font myFont;
 #define star_starting_x CP_System_GetWindowWidth() / 2.0f - star_offset_x // Starting x position for the first star
 
 extern int star_count; // Access the star_count variable from Stars.c
-static CP_Image end_bg;
+CP_Image end_bg;
 
 static void EndScreen_DrawPanel(void)
 {
@@ -107,11 +106,15 @@ void GameOver_Screen(void)
 	//float area_center_x, float area_center_y, float area_width, float area_height, float click_x, float click_y
 	if (CP_Input_MouseClicked() && IsAreaClicked(CP_System_GetWindowWidth() / 2.0f, retry_y, 300.0f, 100.0f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 	{
+		CP_Image_Free(end_bg);
+		end_bg = NULL;
 		RopeGame_Init();// Retry
 	}
 
 	if (CP_Input_MouseClicked() && IsAreaClicked(CP_System_GetWindowWidth() / 2.0f, levelselect_y, 300.0f, 100.0f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 	{
+		CP_Image_Free(end_bg);
+		end_bg = NULL;
 		CP_Engine_SetNextGameState(Level_Select_Init, Level_Select_Update, Level_Select_Exit);	// Level Select
 	}
 }
@@ -169,10 +172,14 @@ void GameWin_Screen(void)
 	//Checking if the buttons are clicked
 	if (CP_Input_MouseClicked() && IsAreaClicked(CP_System_GetWindowWidth() / 2.0f, retry_y, 300.0f, 100.0f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 	{
+		CP_Image_Free(end_bg);
+		end_bg = NULL;
 		RopeGame_Init();// Retry
 	}
 	if (CP_Input_MouseClicked() && IsAreaClicked(CP_System_GetWindowWidth() / 2.0f, levelselect_y, 300.0f, 100.0f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 	{
+		CP_Image_Free(end_bg);
+		end_bg = NULL;
 		CP_Engine_SetNextGameState(Level_Select_Init, Level_Select_Update, Level_Select_Exit);	// Level Select
 	}
 }

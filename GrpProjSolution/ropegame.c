@@ -286,5 +286,8 @@ void RopeGame_Exit(void)
 	CP_Image_Free(level_bg);
 	level_bg = NULL;
 
+	Magnet_Exit();
 	Stars_Exit(); // Free the star image
+
+
 }

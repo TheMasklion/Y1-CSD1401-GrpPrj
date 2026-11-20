@@ -91,4 +91,5 @@ void Main_Menu_Exit(void)
 {
 	CP_Font_Free(myFont);
 	CP_Image_Free(menu_bg);
+	menu_bg = NULL;
 }

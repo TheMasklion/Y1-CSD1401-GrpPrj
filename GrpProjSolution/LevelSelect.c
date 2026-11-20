@@ -55,6 +55,7 @@ int total_levels = 1; //levels to be created, this value can change dynamically 
 
 CP_Font myFont;
 static CP_Image level_bg;
+extern CP_Image star_img;
 
 void Level_Select_Init(void)
 {
@@ -151,4 +152,6 @@ void Level_Select_Exit(void)
 	CP_Image_Free(level_bg);
 	level_bg = NULL;
 	CP_Font_Free(myFont);
+	CP_Image_Free(star_img); //used to free star image
+	star_img = NULL;
 }
