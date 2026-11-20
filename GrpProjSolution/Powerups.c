@@ -95,20 +95,20 @@ void Bubble_Draw(void)
 	if (bubble.state == BUBBLE_POPPED)
 		return;
 
-	CP_Settings_Fill(CP_Color_Create(80, 160, 255, 120));	// last number is alpha, so the candy shows 
+	CP_Settings_Fill(CP_Color_Create(80, 160, 255, 120));	// last number is alpha, so the candy shows, basically priority over the bubble
 	CP_Graphics_DrawCircle(bubble.x, bubble.y, bubble.r * 2.0f);
 }
 
 // Magnet: click on it and keep holding the mouse button. While held, the magnet is ATTRACTING and checks every frame
-// whether the free candy is level with it (candy Y within magnet Y +- magnet radius, and within MAGNET_RANGE sideways).
-// The moment it is, the magnet locks the candy's height and slides it sideways (X only) toward the magnet.
+// whether the free candy y level is equal to magnet y (candy Y within magnet Y +- magnet radius).
+// The moment candy Y is = magnet Y, slide it sideways toward the magnet.
 // It lets go when the candy touches the magnet or the mouse button is released, and then it can be clicked again.
 // A bubble takes priority: if the candy touches a bubble, the bubble takes it (Magnet_Cancel).
 typedef enum
 {
 	MAGNET_READY,		// switched off, waiting for a click on it
 	MAGNET_ATTRACTING,	// mouse held since the click, waiting for the candy to be level with the magnet
-	MAGNET_PULLING		// candy level and locked in height, sliding sideways toward the magnet
+	MAGNET_PULLING		// candy pulleds toward the magnet
 } MagnetState;
 
 typedef struct
