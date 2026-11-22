@@ -17,6 +17,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include "SaveData.h" // Retrieve and draw stars
+#include "LevelData.h" // LEVEL_COUNT: how many level buttons to draw
 
 //I keep almost the same styling for consistency
 #define GREY_BG CP_Color_Create(100, 100, 100, 255)
@@ -51,7 +52,7 @@ e.g 15:
 #define Y_GAP (float)(BTN_Y_SPACE - (BTN_HEIGHT * MAX_ROWS)) / (MAX_ROWS + 1)
 
 int current_level = 0;
-int total_levels = 1; //levels to be created, this value can change dynamically when we have level creator
+int total_levels = LEVEL_COUNT; //one button per entry in the level table (LevelData.c)
 
 CP_Font myFont;
 static CP_Image level_bg;
@@ -120,21 +121,22 @@ void Level_Select_Update(void)
 	//float area_center_x, float area_center_y, float area_width, float area_height, float click_x, float click_y, int i
 	if (CP_Input_MouseClicked()) 
 	{
-		//run the test for each button
+		//run the test for each button, at that button's own position (the draw loop above left BTN_X / BTN_Y on the last button)
 		for (int i = 0; i < total_levels; i++) 
 		{
+			col = i % columns;
+			row = i / columns;
+			BTN_X = X_GAP + (BTN_WIDTH / 2.0f) + ((BTN_WIDTH + X_GAP) * col);
+			BTN_Y = BTN_Y_MARGIN + (BTN_HEIGHT / 2.0f) + ((BTN_HEIGHT + Y_GAP) * row);
+
 			//then run the test, additionally parse i to compare each button number
-			switch (LevelClicked(BTN_X, BTN_Y, BTN_WIDTH, BTN_HEIGHT, CP_Input_GetMouseX(), CP_Input_GetMouseY(),i)) 
+			//IMPORTANT IT RETURNS i+1, 0 is reserved for false meaning not clicked: the number returned IS the level
+			int clicked = LevelClicked(BTN_X, BTN_Y, BTN_WIDTH, BTN_HEIGHT, CP_Input_GetMouseX(), CP_Input_GetMouseY(), i);
+			if (clicked > 0)
 			{
-				//IMPORTANT WE START FROM CASE 1 SO ITS i+1, 0 is reserved for false meaning not clicked
-				default:
-				case 0:
+				current_level = clicked;	// RopeGame_Init reads the layout for this level from LevelData.c
+				CP_Engine_SetNextGameState(RopeGame_Init, RopeGame_Update, RopeGame_Exit);	// ROPE: Play opens the rope state (was Game_Init, Game_Update, Game_Exit)
 				break;
-				case 1:
-					CP_Engine_SetNextGameState(RopeGame_Init, RopeGame_Update, RopeGame_Exit);	// ROPE: Play opens the rope state (was Game_Init, Game_Update, Game_Exit)
-					current_level = 1;
-					break;
-	
 			}
 		}
 	}

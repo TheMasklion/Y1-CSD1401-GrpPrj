@@ -2,6 +2,7 @@
 #include <cprocessing.h>
 #include "Stars.h"
 #include <stdlib.h>
+#include "LevelData.h" // LEVEL_COUNT sizes the star array
 
 #define star_offset 100.0f
 #define starting_x x - star_offset
@@ -97,7 +98,10 @@ void UpdateSave(int level, int star_count)
 	}
 
 	int levels, stars;
-	int savedStars[1];
+	int savedStars[LEVEL_COUNT];
+
+	if (level < 1 || level > total_levels)
+		return;
 
 	// Initialise array
 	for (int i = 0; i < total_levels; i++) {

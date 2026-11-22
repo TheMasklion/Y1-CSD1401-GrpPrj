@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClInclude Include="Collision.h" />
     <ClInclude Include="gamestate.h" />
+    <ClInclude Include="LevelData.h" />
     <ClInclude Include="LevelSelect.h" />
     <ClInclude Include="mainmenu.h" />
     <ClInclude Include="Pause.h" />
@@ -28,6 +29,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="gamestate.c" />
+    <ClCompile Include="LevelData.c" />
     <ClCompile Include="LevelSelect.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="mainmenu.c" />
