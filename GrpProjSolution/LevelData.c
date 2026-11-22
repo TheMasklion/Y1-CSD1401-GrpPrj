@@ -15,9 +15,8 @@
 //			  and lets go when the candy touches it (or the mouse is released early): the candy then drops.
 //
 //			Difficulty curve:
-//			Level 1 (easy)   - three ropes, bubble and magnet both there, pig right under the main anchor.
-//			                   Cut everything and the candy already lands near the pig; the stars show off the
-//			                   bubble ride and the magnet.
+//			Level 1 (tutorial) - one rope straight above the pig, no power-ups, the three stars in the drop path.
+//			                   One cut collects everything; a hint on screen says what to do.
 //			Level 2 (medium) - two ropes, NO bubble, smaller pig far off to the LEFT while the candy hangs on
 //			                   the right. A straight drop misses: the magnet has to carry the candy over the
 //			                   pig. Three stars need the swing: cut the right rope, let the candy swing out to
@@ -31,23 +30,28 @@
 //                   (placed higher than the candy ever swings, so it cannot shortcut the bubble)
 //			                   catches the falling candy, sweeps it through the third star and drops it on
 //			                   the pig. Miss the bubble and the candy is lost.
+//			Level 4          - the original level 1 layout: three ropes, bubble and magnet, pig under the main
+//			                   anchor. Needs a timed cut, the magnet, and letting go of it at the right moment.
 //---------------------------------------------------------
 
 #include "LevelData.h"
 
 static const LevelData levels[LEVEL_COUNT] =
 {
-	// ---------------------------------------------------------------- Level 1: easy (the original layout, unchanged)
+	// ---------------------------------------------------------------- Level 1: tutorial
+	// One rope, no power-ups (both parked off screen). The candy hangs straight above the pig with the three
+	// stars in a line between them: cut the rope and the candy falls through all three onto the pig.
 	{
-		.anchor_count = 3,
-		.anchor = { { 800.0f, 60.0f }, { 438.0f, 172.0f }, { 988.0f, 122.0f } },	// the original: candy start (588, 272) - (150, 100) and + (400, -150)
+		.anchor_count = 1,
+		.anchor = { { 800.0f, 60.0f } },
 		.rope_length = 300.0f,
-		.start_angle = 45.0f,
+		.start_angle = 0.0f,			// hangs straight down at (800, 360), no swing
 		.pig = { 800.0f, 850.0f },
 		.pig_radius = 50.0f,
-		.bubble = { 800.0f, 562.5f },
-		.magnet = { 320.0f, 562.5f },
-		.star = { { 900.0f, 550.0f }, { 800.0f, 700.0f }, { 800.0f, 50.0f } },
+		.bubble = { -200.0f, -200.0f },
+		.magnet = { -200.0f, -200.0f },
+		.star = { { 800.0f, 470.0f }, { 800.0f, 580.0f }, { 800.0f, 690.0f } },
+		.hint = "Tutorial: swipe across the rope to cut it",
 	},
 
 	// ---------------------------------------------------------------- Level 2: medium
@@ -91,6 +95,23 @@ static const LevelData levels[LEVEL_COUNT] =
 			{ 910.0f, 150.0f },		// high up: collected on the bubble ride
 			{ 1100.0f, 250.0f },	// at the magnet's height, between the bubble column and the magnet
 		},
+	},
+
+	// ---------------------------------------------------------------- Level 4: the original level 1 layout
+	// Three ropes, bubble and magnet. The candy rests about (725, 270). Cut the left rope and it swings right to
+	// x ~ 900 on the other two; cut both there and it drops through the star at (900, 550); the held magnet
+	// pulls it left into the bubble, which lifts it through the top star and pops; let go of the magnet by
+	// then or it grabs the candy again on the way down, which falls through the last star onto the pig.
+	{
+		.anchor_count = 3,
+		.anchor = { { 800.0f, 60.0f }, { 438.0f, 172.0f }, { 988.0f, 122.0f } },	// candy start (588, 272) - (150, 100) and + (400, -150)
+		.rope_length = 300.0f,
+		.start_angle = 45.0f,
+		.pig = { 800.0f, 850.0f },
+		.pig_radius = 50.0f,
+		.bubble = { 800.0f, 562.5f },
+		.magnet = { 320.0f, 562.5f },
+		.star = { { 900.0f, 550.0f }, { 800.0f, 700.0f }, { 800.0f, 50.0f } },
 	},
 };
 

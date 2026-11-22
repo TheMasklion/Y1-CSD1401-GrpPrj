@@ -11,7 +11,7 @@
 
 #pragma once
 
-#define LEVEL_COUNT			3		// levels in the table (LevelSelect.c reads this for its buttons)
+#define LEVEL_COUNT			4		// levels in the table (LevelSelect.c reads this for its buttons)
 #define LEVEL_MAX_ANCHORS	4		// same as ROPERIG_MAX_ROPES: the game's own rope plus up to three added by the rig
 #define LEVEL_STARS			3		// stars per level (Stars.c draws and counts exactly three)
 
@@ -35,6 +35,8 @@ typedef struct
 	LevelPoint magnet;
 
 	LevelPoint star[LEVEL_STARS];			// where the three stars are drawn (collected when the candy touches them)
+
+	const char* hint;						// one line shown at the top while playing (the tutorial), NULL for none
 } LevelData;
 
 // The table entry for a level number from the level select (1-based). Out-of-range numbers clamp,

@@ -69,6 +69,7 @@ static VerletRope rope;
 static RopeCutter cutter;
 static RopeRig rig;
 static CP_Image level_bg;
+static CP_Font hint_font;	// LEVEL: for the tutorial's hint line, same font file as the menus
 
 // LEVEL: the table entry being played
 static const LevelData* level;
@@ -138,6 +139,8 @@ void RopeGame_Init(void)
 		pig_img = CP_Image_Load("Assets/Pig.png");
 	if (level_bg == NULL)
 		level_bg = CP_Image_Load("Assets/levelbackground.png");
+	if (hint_font == NULL)
+		hint_font = CP_Font_Load("Assets/Exo2-Regular.ttf");
 	CP_Settings_ImageFilterMode(CP_IMAGE_FILTER_NEAREST);	// keeps pixel art crisp when scaled up
 
 	// LEVEL: power-ups where the table puts them (a level that does not want one parks it off screen)
@@ -277,6 +280,16 @@ void RopeGame_Update(void)
 
 	Star_Counter(); // Counts the stars collected and displays the count on the screen
 
+	// LEVEL: the tutorial's one-line hint at the top of the screen (NULL in the other levels)
+	if (level->hint != NULL)
+	{
+		CP_Font_Set(hint_font);
+		CP_Settings_TextSize(40.0f);
+		CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
+		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+		CP_Font_DrawText(level->hint, (float)CP_System_GetWindowWidth() / 2.0f, 140.0f);
+	}
+
 	// R: new rope (CUT: handy once the candy has been dropped)
 	if (CP_Input_KeyTriggered(KEY_R))
 		RopeGame_Init();
@@ -295,6 +308,8 @@ void RopeGame_Exit(void)
 	pig_img = NULL;
 	CP_Image_Free(level_bg);
 	level_bg = NULL;
+	CP_Font_Free(hint_font);
+	hint_font = NULL;
 
 	Magnet_Exit();
 	Stars_Exit(); // Free the star image
