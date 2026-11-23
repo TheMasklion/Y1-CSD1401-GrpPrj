@@ -73,6 +73,7 @@ static const LevelData levels[LEVEL_COUNT] =
 			{ 620.0f, 600.0f },		// on the magnet's pull path, at the magnet's height
 			{ 560.0f, 330.0f },		// far left of the first swing on the main rope once the right rope is cut (x ~ 580)
 		},
+		.hint = "Tutorial: hold the magnet to pull the lollipop towards it",
 	},
 
 	// ---------------------------------------------------------------- Level 3: hard
@@ -95,6 +96,7 @@ static const LevelData levels[LEVEL_COUNT] =
 			{ 910.0f, 150.0f },		// high up: collected on the bubble ride
 			{ 1100.0f, 250.0f },	// at the magnet's height, between the bubble column and the magnet
 		},
+		.hint = "Tutorial: Bubble will cause the lollipop to float",
 	},
 
 	// ---------------------------------------------------------------- Level 4: the original level 1 layout
