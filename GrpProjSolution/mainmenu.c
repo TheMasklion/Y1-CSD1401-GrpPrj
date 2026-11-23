@@ -28,11 +28,47 @@
 #define BTN_WIDTH 325.0f
 #define BTN_HEIGHT 175.0f
 #define BTN_X (float)(CP_System_GetWindowWidth() / 2)
-#define BTN_Y_PLAY (float)(CP_System_GetWindowHeight() / 4.25f)
+#define BTN_Y_PLAY (float)(CP_System_GetWindowHeight() / 3.0f)	// moved down from / 4.25f to make room for the title
 #define BTN_Y_EXIT (float)(CP_System_GetWindowHeight() / 1.45f)
+
+// Title: "Lolli" in pink and "Pig" in green, like the logo
+#define TITLE_FONT_SIZE 150.0f
+#define TITLE_Y (float)(CP_System_GetWindowHeight() / 8.5f)
+#define TITLE_SPLIT_OFFSET 30.0f	// "Lolli" is wider than "Pig", so the seam sits a little right of centre to keep the whole title centred
+#define TITLE_SHADOW_OFFSET 5.0f
+#define LOLLI_PINK CP_Color_Create(244, 162, 192, 255)
+#define PIG_GREEN CP_Color_Create(106, 191, 64, 255)
+#define TITLE_SHADOW CP_Color_Create(42, 27, 55, 255)
 
 CP_Font myFont;
 static CP_Image menu_bg;
+
+// Draws the "LolliPig" title in two colours. CProcessing cannot measure text width, so "Lolli" is
+// right-aligned and "Pig" left-aligned at the same seam x, which makes the two words sit flush.
+static void DrawTitle(void)
+{
+	float seam_x = BTN_X + TITLE_SPLIT_OFFSET;
+
+	CP_Font_Set(myFont);
+	CP_Settings_TextSize(TITLE_FONT_SIZE);
+
+	// "Lolli" ends at the seam
+	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_RIGHT, CP_TEXT_ALIGN_V_MIDDLE);
+	CP_Settings_Fill(TITLE_SHADOW);
+	CP_Font_DrawText("Lolli", seam_x + TITLE_SHADOW_OFFSET, TITLE_Y + TITLE_SHADOW_OFFSET);
+	CP_Settings_Fill(LOLLI_PINK);
+	CP_Font_DrawText("Lolli", seam_x, TITLE_Y);
+
+	// "Pig" starts at the seam
+	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_LEFT, CP_TEXT_ALIGN_V_MIDDLE);
+	CP_Settings_Fill(TITLE_SHADOW);
+	CP_Font_DrawText("Pig", seam_x + TITLE_SHADOW_OFFSET, TITLE_Y + TITLE_SHADOW_OFFSET);
+	CP_Settings_Fill(PIG_GREEN);
+	CP_Font_DrawText("Pig", seam_x, TITLE_Y);
+
+	// Back to centred text for the buttons
+	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
+}
 
 void Main_Menu_Init(void)
 {
@@ -48,6 +84,7 @@ void Main_Menu_Update(void)
 {
 	//Drawing the main menu
 	DrawBackground(menu_bg);
+	DrawTitle();
 	CP_Settings_Fill(REDDISH_PINK_BG); //Play Button colour
 	CP_Graphics_DrawRect(BTN_X, BTN_Y_PLAY, BTN_WIDTH, BTN_HEIGHT); //Play Button
 	CP_Graphics_DrawRect(BTN_X, BTN_Y_EXIT, BTN_WIDTH, BTN_HEIGHT); //Exit Button
