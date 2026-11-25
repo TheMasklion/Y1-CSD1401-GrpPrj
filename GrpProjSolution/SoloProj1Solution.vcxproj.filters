@@ -63,6 +63,9 @@
     <ClInclude Include="LevelData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="splash.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
@@ -113,6 +116,9 @@
     <ClCompile Include="LevelData.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="splash.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Candy.png">
@@ -128,6 +134,9 @@
       <Filter>Assets</Filter>
     </Image>
     <Image Include="Assets\levelbackground.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\DigiPen_BLACK.png">
       <Filter>Assets</Filter>
     </Image>
   </ItemGroup>

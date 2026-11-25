@@ -24,6 +24,7 @@
     <ClInclude Include="ropegame.h" />
     <ClInclude Include="roperig.h" />
     <ClInclude Include="SaveData.h" />
+    <ClInclude Include="splash.h" />
     <ClInclude Include="Stars.h" />
     <ClInclude Include="utils.h" />
   </ItemGroup>
@@ -42,12 +43,14 @@
     <ClCompile Include="roperig.c" />
     <ClCompile Include="PigCandy.c" />
     <ClCompile Include="SavaData.c" />
+    <ClCompile Include="splash.c" />
     <ClCompile Include="Stars.c" />
     <ClCompile Include="utils.c" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\background.png" />
     <Image Include="Assets\Candy.png" />
+    <Image Include="Assets\DigiPen_BLACK.png" />
     <Image Include="Assets\levelbackground.png" />
     <Image Include="Assets\Magnet.png" />
     <Image Include="Assets\Pig.png" />
