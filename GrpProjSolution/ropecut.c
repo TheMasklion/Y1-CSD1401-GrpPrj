@@ -14,7 +14,7 @@
 #define ROPECUT_EPSILON 0.0001f
 
 // ================================================================== 
-// Geometry (Simple Distance)
+// Geometry
 // ==================================================================
 
 static float Cut_DistancePointToSegment(CP_Vector p, CP_Vector a, CP_Vector b)
@@ -31,12 +31,32 @@ static float Cut_DistancePointToSegment(CP_Vector p, CP_Vector a, CP_Vector b)
 	if (len2 < ROPECUT_EPSILON)
 		return CP_Vector_Distance(p, a);
 
-	// Vector projection: finding where the hinge drops perpendicularly onto the swipe line.
+	// Vector projection: finding where the point drops perpendicularly onto the segment.
 	// Clamped between 0.0 and 1.0 to ensure the point stays on the actual physical segment.
 	t = CP_Math_ClampFloat(CP_Vector_DotProduct(ap, ab) / len2, 0.0f, 1.0f);
 
 	// Calculate the exact closest point on the line, and return the distance to it
 	return CP_Vector_Distance(p, CP_Vector_Add(a, CP_Vector_Scale(ab, t)));
+}
+
+// Returns 1 if the swipe segment (p,q) truly crosses the rope segment (a,b)
+static int Cut_SegmentsIntersect(CP_Vector p, CP_Vector q, CP_Vector a, CP_Vector b)
+{
+	CP_Vector r = CP_Vector_Subtract(q, p); // swipe direction
+	CP_Vector s = CP_Vector_Subtract(b, a); // rope segment direction
+
+	float denom = r.x * s.y - r.y * s.x;    // cross(r, s)
+
+	// Parallel (or degenerate) segments have no single crossing point
+	if (denom > -ROPECUT_EPSILON && denom < ROPECUT_EPSILON)
+		return 0;
+
+	CP_Vector ap = CP_Vector_Subtract(a, p);
+	float t = (ap.x * s.y - ap.y * s.x) / denom; // position along the swipe (0..1)
+	float u = (ap.x * r.y - ap.y * r.x) / denom; // position along the rope segment (0..1)
+
+	// Both parameters must lie within their segments for a real intersection
+	return (t >= 0.0f && t <= 1.0f && u >= 0.0f && u <= 1.0f);
 }
 
 static int Cut_FindHinge(const VerletRope* rope, CP_Vector p, CP_Vector q, float radius)
@@ -46,16 +66,17 @@ static int Cut_FindHinge(const VerletRope* rope, CP_Vector p, CP_Vector q, float
 	int k_min = rope->points[0].pinned ? 1 : 0;
 	int i;
 
+	(void)radius; // Strict crossing only: blade_radius is not used for cut detection
+
 	// Need at least two points to make a cuttable segment
 	if (n < 2) return -1;
 
-	// Iterate through all joints (stopping before the very last point, which holds the candy)
+	// Test each rope SEGMENT (joint i -> joint i+1) against the swipe segment
 	for (i = k_min; i < n - 1; ++i)
 	{
-		// If the swipe passed closer to this hinge than the blade's thickness
-		if (Cut_DistancePointToSegment(rope->points[i].pos, p, q) <= radius)
+		if (Cut_SegmentsIntersect(p, q, rope->points[i].pos, rope->points[i + 1].pos))
 		{
-			return i; // collision detected. Return the index of the severed hinge.
+			return i; // Swipe crossed this segment. Return the index of the last joint kept.
 		}
 	}
 	return -1;
