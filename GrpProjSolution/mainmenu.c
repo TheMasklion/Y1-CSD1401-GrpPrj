@@ -3,7 +3,7 @@
 // author:	Gasper Ng
 // email:	NG.S@digipen.edu
 //
-// brief:	Main menu for solo proj 2, creates a main menu using rectangles and texts, to form buttons.
+// brief:	Main menu, creates a main menu using rectangles and texts, to form buttons.
 //			Utilizing utils.c functions onclick to interact with the shapes.
 //
 //---------------------------------------------------------

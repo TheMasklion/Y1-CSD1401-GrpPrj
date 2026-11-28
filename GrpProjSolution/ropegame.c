@@ -1,6 +1,10 @@
 // file:	ropegame.c
 // author:	Everyone
-//
+// Gasper: Power-ups, candy-pig, backgrounds
+// Kavian: Cutrope interaction, Pause
+// Jia Xuan: Rope physics, rope rig
+// Jayden: Game state, game over, game win, stars & counter, LevelData, SaveData
+// 
 // Jia Xuans Notes:
 // Overview:Game state for the Verlet rope. See ropegame.h for the hook-up
 //			line and the controls.
